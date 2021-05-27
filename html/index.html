@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Alumni Club</title>
+    <link type="text/css" rel="stylesheet" href="../style/style.css"/>
+  </head>
+
+  <body>
+    <header>
+      <h1>Alumni Club</h1>
+      <nav>
+        <button id="profile">Profile</button>
+        <button id="logout">Logout</button>
+      </nav>
+    </header>
+    <script defer src="../js/mapService.js"></script>
+
+    <main>
+      <section>
+        <form>
+          <fieldset>
+            <legend>Create Invitation</legend>
+
+            <label id="errors"></label>
+            <label for="occasion">Occasion</label>
+            <input id="occasion" name="occasion" type="text" />
+
+            <label for="privacy">Privacy Settings</label>
+            <select id="privacy" name="privacy">
+              <option value="all">All</option>
+              <option value="group">Group</option>
+              <option value="specialty">Specialty</option>
+              <option value="faculty">Faculty</option>
+              <option value="private">Private</option>
+            </select>
+
+            <label for="eventDate">Occasion Date</label>
+            <input id="eventDate" name="eventDate" type="datetime-local" />
+
+            <label for="content">Content</label>
+            <input id="content" name="content" type="text" />
+
+            <input id="submit" type="submit" value="Create Invitation" />
+          </fieldset>
+        </form>
+      </section>
+
+      <section>
+        <p>Click the button to get your coordinates.</p>
+
+        <button onclick="getLocation()">Try It</button>
+
+        <p id="demo"></p>
+        <p id="map" style="width:800px;height:400px;"></p>
+    
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&callback=initMap&libraries=&v=weekly"
+          async
+        ></script>
+      </section>
+
+      <section>
+        <header>
+          <h2>List of invitations</h2>
+        </header>
+      </section>
+    </main>
+
+  </body>
+</html>
