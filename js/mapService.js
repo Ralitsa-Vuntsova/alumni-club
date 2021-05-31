@@ -1,4 +1,3 @@
-
 var x = document.getElementById("demo");
 
 function getLocation() {
@@ -10,7 +9,6 @@ function getLocation() {
 }
 
 function initMap(position) {
-
   const API_KEY = "AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8";
 
   // The location of Uluru
