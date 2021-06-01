@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Alumni Club</title>
-    <link type="text/css" rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
   </head>
 
   <body>
@@ -29,7 +29,7 @@
             <label for="occasion">Occasion</label>
             <input id="occasion" name="occasion" type="text" />
 
-            <label for="privacy">Privacy Settings</label>
+            <label for="privacy">Privacy</label>
             <select id="privacy" name="privacy">
               <option value="all">All</option>
               <option value="group">Group</option>
@@ -38,8 +38,11 @@
               <option value="private">Private</option>
             </select>
 
-            <label for="occasionDate">Occasion Date</label>
+            <label for="occasionDate">Date</label>
             <input id="occasionDate" name="ocassionDate" type="datetime-local" />
+
+            <label for="location">Location</label>
+            <input id="location" name="location" type="text" />
 
             <label for="content">Content</label>
             <input id="content" name="content" type="text" />
@@ -60,8 +63,8 @@
         <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
         <script
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&callback=initMap&libraries=&v=weekly"
-          async
-        ></script>
+          async>
+        </script>
       </section>
 
       <section>

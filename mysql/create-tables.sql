@@ -21,7 +21,7 @@ CREATE TABLE additionalInfo (
   graduationYear  YEAR(4) DEFAULT 1970,
   groupUni        INT(10) NOT NULL,
   faculty         VARCHAR(50) NOT NULL,
-  locationId      INT NOT NULL -- privacySettingsId INT NOT NULL FOREIGN KEY REFERENCES privacySettings(id), TODO
+  locationId      INT NOT NULL
 ) default charset utf8 comment '';
 
 CREATE TABLE contacts (
@@ -38,27 +38,16 @@ CREATE TABLE locations (
   address         VARCHAR(30) NOT NULL
 ) default charset utf8 comment '';
 
--- CREATE TABLE privacySettings (
---   id           INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
---   scope        ENUM(
---                    'all',
---                    'group',
---                    'specialty',
---                    'faculty',
---                    'private'
---                )
--- ) default charset utf8 comment '';
-
--- maybe rename it (posts->invitations)
+-- posts = invitations
 CREATE TABLE posts (
   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
-  -- if the post is visible by certain group
+  -- visibility
   privacy         ENUM(
                       'all',
                       'group',
                       'specialty',
                       'faculty',
-                      'private' -- MAYBE CHANGE IT TO CONTACTS
+                      'private' -- a.k.a people in your contacts
                   ) NOT NULL,
   userId          INT NOT NULL,
   occasion        VARCHAR(255) NOT NULL,

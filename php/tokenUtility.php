@@ -26,7 +26,7 @@
 
         /**
          * If the query was executed successfully we can check whether the token is valid and
-         * to return the user's  data
+         * to return the user's data
          */
         if($query["success"]) {
             /**
