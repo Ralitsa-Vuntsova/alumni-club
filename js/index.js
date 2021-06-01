@@ -15,8 +15,27 @@
     sendRequest('src/index.php/students', {method: 'GET'}, loadStudents, console.log);
 })();
 
-function sendForm(event) {
+function sendForm(event) { // sends the info from the form to the server
+    /**
+     * Prevent the default behavior of the clicking the form submit button (because we want things to happen async)
+     */
     event.preventDefault();
+
+    /*
+    var occasion = document.getElementById('occasion').value;
+    var privacy = document.getElementById('privacy').value;
+    var occasionDate = document.getElementById('occasionDate').value;
+    var location = document.getElementById('location').value;
+    var content = document.getElementById('content').value;
+
+    var data = {
+        occasion,
+        privacy
+        occasionDate,
+        location,
+        content
+    };
+    */
 
     var firstName = document.getElementById('first-name').value;
     var lastName = document.getElementById('last-name').value;
@@ -32,6 +51,12 @@ function sendForm(event) {
 
     sendRequest('src/index.php/addStudent', 'POST', `data=${JSON.stringify(data)}`, addStudentMark, handleErrors);
 }
+
+/* TODO
+function sendRequest(url, method, data){
+
+}
+*/
 
 function addStudentMark(studentData) {
     var studentTable = document.getElementById('marks');
