@@ -1,9 +1,9 @@
 <?php
     class Database {
         private $connection;
-        private $insertMark;
-        private $selectMark;
-        private $selectMarks;
+        private $insertMark; // insertPost
+        private $selectMark; // selectPost
+        private $selectMarks; // ...
         private $selectStudent;
         private $selectUser;
         private $insertToken;
@@ -12,6 +12,7 @@
         private $insertUser;
         private $selectStudentsWithMarks;
 
+        // data base info is in config file because the data can be changed easily that way
         public function __construct() {
             $config = parse_ini_file('../config/config.ini', true);
 
@@ -72,25 +73,28 @@
                 $this->selectStudentsWithMarksQuery->execute();
                 return ["success" => true];
             } catch(PDOException $e) {
-                // $this->connection->rollBack(); ???
+                // if an error occurs => return the database in the previous state (a.k.a without changes)
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
 
-        public function insertMarkQuery($data) {
+        public function insertMarkQuery($data) { // add mark to database
             try {
                 $this->insertMark->execute($data);
                 return ["success" => true];
             } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
 
-        public function selectMarkQuery($data) {
+        public function selectMarkQuery($data) { //select mark from database (to check if the mark is already in the db)
             try {
                 $this->selectMark->execute($data);
                 return ["success" => true, "data" => $this->selectMark];
             } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
@@ -100,6 +104,7 @@
                 $this->selectMarks->execute();
                 return ["success" => true];
             } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
@@ -109,6 +114,7 @@
                 $this->selectStudent->execute($data);
                 return ["success" => true, "data" => $this->selectStudent];
             } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
@@ -118,6 +124,7 @@
                 $this->selectUser->execute($data);
                 return ["success" => true, "data" => $this->selectUser];
             } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
@@ -127,7 +134,8 @@
                 $this->selectUserById->execute($data);
                 return array("success" => true, "data" => $this->selectUserById);
             } catch(PDOException $e){
-                return array("success" => false, "error" => "Connection failed: " . $e->getMessage());
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
 
@@ -136,7 +144,8 @@
                 $this->insertToken->execute($data);
                 return array("success" => true, "data" => $this->insertToken);
             } catch(PDOException $e){
-                return array("success" => false, "error" => "Connection failed: " . $e->getMessage());
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
 
@@ -145,7 +154,8 @@
                 $this->selectToken->execute($data);
                 return array("success" => true, "data" => $this->selectToken);
             } catch(PDOException $e){
-                return array("success" => false, "error" => "Connection failed: " . $e->getMessage());
+                $this->connection->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
 
@@ -154,6 +164,7 @@
                 $this->insertUser->execute($data);
                 return ["success" => true, "data" => $this->insertUser];
             } catch(PDOException $e) {
+                $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
