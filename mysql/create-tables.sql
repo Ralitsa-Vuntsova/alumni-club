@@ -53,7 +53,7 @@ CREATE TABLE posts (
   occasion        VARCHAR(255) NOT NULL,
   locationId      INT NOT NULL,
   content         VARCHAR(255) NOT NULL,
-  eventDate       DATETIME COMMENT 'event time' NOT NULL,
+  occasionDate    DATETIME COMMENT 'event time' NOT NULL,
   createTime      DATETIME COMMENT 'create time' NOT NULL,
   likes           INT -- coming to the event
 ) default charset utf8 comment '';
@@ -64,6 +64,13 @@ CREATE TABLE comments (
   postId          INT NOT NULL,
   content         VARCHAR(255) NOT NULL,
   createTime      DATETIME COMMENT 'create time'
+) default charset utf8 comment '';
+
+CREATE TABLE tokens (
+  id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
+  token           VARCHAR(255),
+  userId          INT NOT NULL,
+  expires         DATETIME
 ) default charset utf8 comment '';
 
 ALTER TABLE
@@ -110,3 +117,8 @@ ALTER TABLE
   comments
 ADD
   CONSTRAINT FK_Comments_Users FOREIGN KEY (userId) REFERENCES users(id);
+
+ALTER TABLE
+  tokens
+ADD
+  CONSTRAINT FK_Tokens_Users FOREIGN KEY (userId) REFERENCES users(id);

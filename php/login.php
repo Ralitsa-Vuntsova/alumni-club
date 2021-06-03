@@ -11,18 +11,21 @@
     if (isset($_POST)) {
         $data = json_decode($_POST['data'], true);
 
-        // TODO: testInput
+        $username = isset($data['username']) ? testInput($data['username']) : '';
+        $password = isset($data['password']) ? testInput($data['password']) : '';
 
-        if(!$data['userName']) {
-            $errors[] = 'Please eneter user name';
+        validateData($data);
+
+        if(!$data['username']) {
+            $errors[] = 'Please enter user name';
         }
 
         if(!$data['password']) {
             $errors[] = 'Please enter password';
         }
 
-        if($data['userName'] && $data['password']) {
-            $user = new User($data['userName'], $data['password']);
+        if($data['username'] && $data['password']) {
+            $user = new User($data['username'], $data['password']);
             $isValid = $user->isValid();
 
             if($isValid['success']) {
@@ -30,26 +33,19 @@
                 $_SESSION['email'] = $user->getEmail();
                 $_SESSION['userId'] = $user->getUserId();
 
-                $tokenUtility = new TokenUtility();
-                $token = bin2hex(random_bytes(8));
-                $epxires = time() + 30 * 24 * 60 * 60;
-                setcookie('token', $token, $expires, '/');
-                $tokenUtility->createToken($token, $_SESSION['userId'], $expires);
-
-                // if ($data['remember']) {
-                //     // Create cookie for remembering the user
-                //     $tokenUtility = new TokenUtility();
-                //     $token = bin2hex(random_bytes(8));
-                //     $epxires = time() + 30 * 24 * 60 * 60;
-                //     setcookie('token', $token, $expires, '/');
-                //     $tokenUtility->createToken($token, $_SESSION['userId'], $expires);
-                // }
+                if ($data['remember']) {
+                    $tokenUtility = new TokenUtility();
+                    $token = bin2hex(random_bytes(8)); // generates random 8 bytes (random string)
+                    $epxires = time() + 30 * 24 * 60 * 60; // valid time (30 days x 24 hours x 60 mins x 60 secs)
+                    setcookie('token', $token, $expires, '/');
+                    $tokenUtility->createToken($token, $_SESSION['userId'], $expires);
+                }
             } else {
-                $erros[] = $isValid['error'];
+                $errors[] = $isValid['error'];
             }
         }
     } else {
-        $error[] = 'Invalid request';
+        $errors[] = 'Invalid request';
     }
 
     if($errors) {
@@ -58,5 +54,5 @@
         $response = ['success' => true];
     }
 
-    echo json_encode($response);
+    echo json_encode($response); // sending it to login.js
 ?>

@@ -28,6 +28,10 @@
             return $this->userId;
         }
 
+        public function setEmail($email) {
+            $this->email = $email;
+        }
+
         public function userExists() {
             $query = $this->db->selectUserQuery(["user" => $this->username]);
 
@@ -44,7 +48,7 @@
             }
         }
 
-        public function isValid() {
+        public function isValid() { 
             $query = $this->db->selectUserQuery(["user" => $this->username]);
 
             if ($query["success"]) {
@@ -63,19 +67,6 @@
                 } else {
                     return ["success" => false, "error" => "Invalid username"];
                 }
-            } else {
-                return $query;
-            }
-        }
-
-        public function createUser($passwordHash, $email) {
-            $query = $this->db->insertUserQuery(["username" => $this->username, "password" => $passwordHash, "email" => $email]);
-
-            if ($query["success"]) {
-                $this->password = $passwordHash;
-                $this->email = $email;
-
-                return $query;
             } else {
                 return $query;
             }

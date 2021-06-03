@@ -1,16 +1,12 @@
 <?php
     class Database {
         private $connection;
-        private $insertMark; // insertPost
-        private $selectMark; // selectPost
-        private $selectMarks; // ...
-        private $selectStudent;
+        private $insertPost;
+        private $selectPosts;
         private $selectUser;
+        private $selectUserById;
         private $insertToken;
         private $selectToken;
-        private $selectUserById;
-        private $insertUser;
-        private $selectStudentsWithMarks;
 
         // data base info is in config file because the data can be changed easily that way
         public function __construct() {
@@ -37,17 +33,11 @@
         }
 
         private function prepareStatements() {
-            $sql = "INSERT INTO marks(studentFN, mark) VALUES(:fn, :mark)";
-            $this->insertMark = $this->connection->prepare($sql);
+            $sql = "INSERT INTO posts(privacy, occasion, location, content, occasionDate) VALUES(:privacy, :occasion, :location, :content, :occasionDate)";
+            $this->insertPost = $this->connection->prepare($sql);
 
-            $sql = "SELECT * FROM marks WHERE studentFn = :fn";
-            $this->selectMark = $this->connection->prepare($sql);
-
-            $sql = "SELECT * FROM marks";
+            $sql = "SELECT privacy, occasion, location, content, occasionDate FROM posts";
             $this->selectMarks = $this->connection->prepare($sql);
-
-            $sql = "SELECT * FROM students WHERE fn = :fn";
-            $this->selectStudent = $this->connection->prepare($sql);
 
             $sql = "SELECT * FROM users WHERE username = :user";
             $this->selectUser = $this->connection->prepare($sql);
@@ -55,33 +45,16 @@
             $sql = "SELECT * FROM users WHERE id=:id";
             $this->selectUserById = $this->connection->prepare($sql);
 
-            $sql = "INSERT INTO tokens(token, user_id, expires) VALUES (:token, :user_id, :expires)";
+            $sql = "INSERT INTO tokens(token, userId, expires) VALUES (:token, :userId, :expires)";
             $this->insertToken = $this->connection->prepare($sql);
 
             $sql = "SELECT * FROM tokens WHERE token=:token";
             $this->selectToken = $this->connection->prepare($sql);
-
-            $sql = "INSERT INTO users(username, password, email) VALUES (:username, :password, :email)";
-            $this->insertUser = $this->connection->prepare($sql);
-
-            $sql = "SELECT firstName, lastName, fn, mark FROM students JOIN marks ON fn = studentFN";
-            $this->selectStudentsWithMarks = $this->connection->prepare($sql);
         }
 
-        public function selectStudentsWithMarksQuery() {
+        public function insertPostQuery($data) {
             try {
-                $this->selectStudentsWithMarksQuery->execute();
-                return ["success" => true];
-            } catch(PDOException $e) {
-                // if an error occurs => return the database in the previous state (a.k.a without changes)
-                $this->connection->rollBack();
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
-
-        public function insertMarkQuery($data) { // add mark to database
-            try {
-                $this->insertMark->execute($data);
+                $this->insertPost->execute($data);
                 return ["success" => true];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
@@ -89,30 +62,10 @@
             }
         }
 
-        public function selectMarkQuery($data) { //select mark from database (to check if the mark is already in the db)
+        public function selectPostsQuery() {
             try {
-                $this->selectMark->execute($data);
-                return ["success" => true, "data" => $this->selectMark];
-            } catch(PDOException $e) {
-                $this->connection->rollBack();
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
-
-        public function selectMarksQuery() {
-            try {
-                $this->selectMarks->execute();
+                $this->selectPosts->execute();
                 return ["success" => true];
-            } catch(PDOException $e) {
-                $this->connection->rollBack();
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
-
-        public function selectStudentQuery($data) {
-            try {
-                $this->selectStudent->execute($data);
-                return ["success" => true, "data" => $this->selectStudent];
             } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
@@ -154,16 +107,6 @@
                 $this->selectToken->execute($data);
                 return array("success" => true, "data" => $this->selectToken);
             } catch(PDOException $e){
-                $this->connection->rollBack();
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
-
-        public function insertUserQuery($data) {
-            try {
-                $this->insertUser->execute($data);
-                return ["success" => true, "data" => $this->insertUser];
-            } catch(PDOException $e) {
                 $this->connection->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }

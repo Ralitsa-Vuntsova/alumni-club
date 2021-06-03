@@ -15,7 +15,7 @@
        * Create user session token
        */
       public function createToken($token, $userId, $expires) {
-        $this->db->insertTokenQuery(array("token" => $token, "user_id" => $userId, "expires" => $expires));
+        $this->db->insertTokenQuery(array("token" => $token, "userId" => $userId, "expires" => $expires));
       }
 
       /**
@@ -25,8 +25,7 @@
         $query = $this->db->selectTokenQuery(array("token" => $token));
 
         /**
-         * If the query was executed successfully we can check whether the token is valid and
-         * to return the user's data
+         * If the query was executed successfully we can check whether the token is valid
          */
         if($query["success"]) {
             /**
@@ -45,7 +44,7 @@
                  * If the token is still valid, we get the user's data
                  */
                 if($userToken["expires"] > time()) {
-                    $query = $db->selectUserByIdQuery(array("id" => $userToken["user_id"]));
+                    $query = $db->selectUserByIdQuery(array("id" => $userToken["userId"]));
 
                     /**
                      * If the query was executed successfully we can return user's data
@@ -66,10 +65,10 @@
                         return array("success" => false, "error" => $query["error"]);
                     }
                 } else {
-                    return array("success" => false, "error" => "Вашата сесия е изтекла.");
+                    return array("success" => false, "error" => "Your session is expired");
                 }
             } else {
-                return array("success" => false, "error" => "Вашата сесия е изтекла.");
+                return array("success" => false, "error" => "Your session is expired");
             }
         } else {
             return array("success" => false, "error" => $query["error"]);
