@@ -10,8 +10,8 @@
     $requestUrl = $_SERVER['REQUEST_URI'];
     
     if(preg_match("/posts$/", $requestUrl)) {
-        if ($_SESSION) {
-            if ($_SESSION['username']) {
+        if ($_SESSION) { // ima li startirana sesiya
+            if ($_SESSION['username']) { // imame li zapis za nashiya potrebitel
                 $post = new Post('', '', '', '', '');
                 $posts = $post->getAllPosts();
 
@@ -19,7 +19,7 @@
             } else {
                 echo json_encode(['success' => false, 'data' => 'Unauthorized']);
             }
-        } else {
+        } else { // ako nqma sesiya proverqvame dali imame setnato cookie
             if ($_COOKIE['token']) {
                 $tokenUtility = new TokenUtility();
                 $isValid = $tokenUtility->checkToken($_COOKIE['token']);
