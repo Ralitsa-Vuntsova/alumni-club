@@ -8,7 +8,7 @@
      logoutBtn.addEventListener('click', logout);
  
     // endpoint = posts
-    sendRequest('php/index.php/posts', { method: 'GET' }, loadPosts, console.log);
+    sendRequest('../php/index.php/posts', { method: 'GET' }, loadPosts, console.log);
 })();
 
 function sendForm(event) { // prepare the info from the form to be sent to the server
@@ -32,7 +32,7 @@ function sendForm(event) { // prepare the info from the form to be sent to the s
     };
 
     // endpoint = addPost
-    sendRequest('php/index.php/addPost', { method: 'POST', data: `${JSON.stringify(data)}` }, addPost, handleErrors);
+    sendRequest('../php/index.php/addPost', { method: 'POST', data: `${JSON.stringify(data)}` }, addPost, handleErrors);
 }
 
 // add post with the given data in the table in the html
@@ -77,7 +77,7 @@ function handleErrors(errors) {
  function logout(event) {
     event.preventDefault();
 
-    sendRequest('php/logout.php', { method: 'GET' }, redirect, console.log);
+    sendRequest('../php/logout.php', { method: 'GET' }, redirect, console.log);
 }
 
 function redirect() {

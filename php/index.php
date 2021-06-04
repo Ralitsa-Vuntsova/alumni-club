@@ -15,7 +15,7 @@
                 $post = new Post('', '', '', '', '');
                 $posts = $post->getAllPosts();
 
-                echo json_encode(['success' => true, 'data' => $posts); // sending it to index.js
+                echo json_encode(['success' => true, 'data' => $posts]); // sending it to index.js
             } else {
                 echo json_encode(['success' => false, 'data' => 'Unauthorized']); // sending it to index.js
             }
@@ -32,7 +32,7 @@
                     $post = new Post('', '', '', '', '');
                     $posts = $post->getAllPosts();
 
-                    echo json_encode(['success' => true, 'data' => $posts); // sending it to index.js
+                    echo json_encode(['success' => true, 'data' => $posts]); // sending it to index.js
                 } else {
                     echo json_encode(['success' => false, 'data' => $isValid['error']]); // sending it to index.js
                 }

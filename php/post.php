@@ -14,11 +14,11 @@
         public function __construct($occasion, $privacy, $occasionDate, $location, $content) {
             $this->db = new Database();
 
-            this->occasion = $occasion;
-            this->privacy = $privacy;
-            this->occasionDate = $occasionDate;
-            this->location = $location;
-            this->content = $content;
+            $this->occasion = $occasion;
+            $this->privacy = $privacy;
+            $this->occasionDate = $occasionDate;
+            $this->location = $location;
+            $this->content = $content;
         }
 
         public function setId($id) {
