@@ -1,3 +1,4 @@
+// async request to the server
 function sendRequest(url, options, successCallback, errorCallback) { 
     var request = new XMLHttpRequest();
 

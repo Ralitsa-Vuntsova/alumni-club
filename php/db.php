@@ -1,6 +1,7 @@
 <?php
     class Database {
         private $connection;
+
         private $insertPost;
         private $selectPosts;
         private $selectUser;
@@ -21,6 +22,7 @@
             $this->init($type, $host, $name, $user, $password);
         }
 
+        // coonect to the DB, prepare the sql statements
         private function init($type, $host, $name, $user, $password) {
             try {
                 $this->connection = new PDO("$type:host=$host;dbname=$name", $user, $password,
@@ -33,10 +35,10 @@
         }
 
         private function prepareStatements() {
-            $sql = "INSERT INTO posts(privacy, occasion, location, content, occasionDate) VALUES(:privacy, :occasion, :location, :content, :occasionDate)";
+            $sql = "INSERT INTO posts(occasion, privacy, occasionDate, location, content) VALUES(:occasion, :privacy, :occasionDate, :location, :content)";
             $this->insertPost = $this->connection->prepare($sql);
 
-            $sql = "SELECT privacy, occasion, location, content, occasionDate FROM posts";
+            $sql = "SELECT occasion, privacy, occasionDate, location, content FROM posts";
             $this->selectMarks = $this->connection->prepare($sql);
 
             $sql = "SELECT * FROM users WHERE username = :user";
@@ -112,9 +114,7 @@
             }
         }
 
-        /**
-         * Close the connection to the DB
-         */
+        // close the connection to the DB
         function __destruct() {
             $this->connection = null;
         }

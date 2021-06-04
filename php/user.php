@@ -28,24 +28,16 @@
             return $this->userId;
         }
 
+        public function setUsername($username) {
+            $this->username = $username;
+        }
+
         public function setEmail($email) {
             $this->email = $email;
         }
 
-        public function userExists() {
-            $query = $this->db->selectUserQuery(["user" => $this->username]);
-
-            if ($query["success"]) {
-                $user = $query["data"]->fetch(PDO::FETCH_ASSOC);
-
-                if ($user) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return $query;
-            }
+        public function setUserId($userId) {
+            $this->userId = $userId;
         }
 
         public function isValid() { 

@@ -8,10 +8,10 @@ CREATE TABLE users (
   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
   username        VARCHAR(20) NOT NULL UNIQUE,
   password        VARCHAR(25) NOT NULL,
-  firstName       VARCHAR(20) NOT NULL,
-  lastName        VARCHAR(20) NOT NULL,
+  firstName       VARCHAR(20), -- NOT NULL,
+  lastName        VARCHAR(20), -- NOT NULL,
   email           VARCHAR(30) NOT NULL UNIQUE,
-  role            ENUM('admin', 'user') NOT NULL
+  role            ENUM('admin', 'user') -- NOT NULL
 ) default charset utf8 comment '';
 
 CREATE TABLE additionalInfo (
@@ -49,12 +49,13 @@ CREATE TABLE posts (
                       'faculty',
                       'private' -- a.k.a people in your contacts
                   ) NOT NULL,
-  userId          INT NOT NULL,
+  userId          INT, -- NOT NULL,
   occasion        VARCHAR(255) NOT NULL,
-  locationId      INT NOT NULL,
+  -- locationId      INT NOT NULL,
+  location        VARCHAR(255) NOT NULL,
   content         VARCHAR(255) NOT NULL,
   occasionDate    DATETIME COMMENT 'event time' NOT NULL,
-  createTime      DATETIME COMMENT 'create time' NOT NULL,
+  createTime      DATETIME COMMENT 'create time', -- NOT NULL,
   likes           INT -- coming to the event
 ) default charset utf8 comment '';
 

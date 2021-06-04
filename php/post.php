@@ -3,22 +3,22 @@
 
     class Post{
         private $id;
-        private $privacy;
         private $occasion;
+        private $privacy;
+        private $occasionDate;
         private $location;
         private $content;
-        private $occasionDate;
 
         private $db;
 
-        public function __construct($privacy, $occasion, $location, $content, $occasionDate) {
+        public function __construct($occasion, $privacy, $occasionDate, $location, $content) {
             $this->db = new Database();
 
-            this->privacy = $privacy;
             this->occasion = $occasion;
+            this->privacy = $privacy;
+            this->occasionDate = $occasionDate;
             this->location = $location;
             this->content = $content;
-            this->occasionDate = $occasionDate;
         }
 
         public function setId($id) {
@@ -29,7 +29,45 @@
             return $this->id;
         }
 
-        // TODO: getters and setters
+        public function setOccasion($occasion) {
+            $this->occasion = $occasion;
+        }
+
+        public function getOccasion() {
+            return $this->occasion;
+        }
+
+        public function setPrivacy($privacy) {
+            $this->privacy = $privacy;
+        }
+
+        public function getPrivacy() {
+            return $this->privacy;
+        }
+
+        public function setOccasionDate($occasionDate) {
+            $this->occasionDate = $occasionDate;
+        }
+
+        public function getOccasionDate() {
+            return $this->occasionDate;
+        }
+
+        public function setLocation($location) {
+            $this->location = $location;
+        }
+
+        public function getLocation() {
+            return $this->location;
+        }
+
+        public function setContent($content) {
+            $this->content = $content;
+        }
+
+        public function getContent() {
+            return $this->content;
+        }
 
         public function getAllPosts() {
             $query = $this->db->selectPosts();
@@ -42,11 +80,11 @@
         }
 
         public function addPost() {
-            $query = $this->db->insertPost(["privacy" => $this->privacy, 
-                                            "occasion" => $this->occasion,
-                                            "location" => $this->location;
-                                            "content" => $this->content,
+            $query = $this->db->insertPost(["occasion" => $this->occasion, 
+                                            "privacy" => $this->privacy,
                                             "occasionDate" => $this->occasionDate,
+                                            "location" => $this->location,
+                                            "content" => $this->content
                                         ]);
         }
     }

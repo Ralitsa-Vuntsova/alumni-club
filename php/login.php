@@ -14,8 +14,6 @@
         $username = isset($data['username']) ? testInput($data['username']) : '';
         $password = isset($data['password']) ? testInput($data['password']) : '';
 
-        validateData($data);
-
         if(!$data['username']) {
             $errors[] = 'Please enter user name';
         }

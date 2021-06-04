@@ -1,32 +1,28 @@
 (function() {
+    // event listener for the submit button
     var submitButton = document.getElementById('submit');
     submitButton.addEventListener('click', sendForm);
 
-    /**
-     * Get the logout button
-     */
+    // event listener fot the logout button
      var logoutBtn = document.getElementById('logout');
-     /**
-      * Listen for click event on the logout button
-      */
      logoutBtn.addEventListener('click', logout);
  
-    // endpoint = [posts]
-    sendRequest('php/index.php/posts', {method: 'GET'}, loadPosts, console.log);
+    // endpoint = posts
+    sendRequest('php/index.php/posts', { method: 'GET' }, loadPosts, console.log);
 })();
 
 function sendForm(event) { // prepare the info from the form to be sent to the server
-    /**
-     * Prevent the default behavior of the clicking the form submit button (because we want things to happen async)
-     */
+    // prevent the default behavior of the clicking the submit button (because we want things to happen async)
     event.preventDefault();
 
+    // get the values of the input fields
     var occasion = document.getElementById('occasion').value;
     var privacy = document.getElementById('privacy').value;
     var occasionDate = document.getElementById('occasionDate').value;
     var location = document.getElementById('location').value;
     var content = document.getElementById('content').value;
 
+    // create an object with the input data
     var data = {
         occasion,
         privacy,
@@ -36,7 +32,7 @@ function sendForm(event) { // prepare the info from the form to be sent to the s
     };
 
     // endpoint = addPost
-    sendRequest('php/index.php/addPost', 'POST', `data=${JSON.stringify(data)}`, addPost, handleErrors);
+    sendRequest('php/index.php/addPost', { method: 'POST', data: `${JSON.stringify(data)}` }, addPost, handleErrors);
 }
 
 // add post with the given data in the table in the html
@@ -60,7 +56,6 @@ function loadPosts(postsData) {
             addPost(post);
         });
     } else {
-        console.log(postsData['data']);
         window.location = 'login.html';
     }
 }
@@ -73,25 +68,16 @@ function handleErrors(errors) {
     errorsLabel.style.display = 'block';
     errorsLabel.style.color = 'red';
 
+    // there can be more than one error
     errors.forEach(function(error) { 
         errorsLabel.innerHTML += error;
     });
 }
 
-/**
- * Handle the click event by sending an async request to the server
- */
  function logout(event) {
-    /**
-     * Prevent the default behavior of the clicking the form submit button
-     */
     event.preventDefault();
 
-    /**
-     * Send GET request to api.php/logout to logout the user
-     */
-    sendRequest('php/logout.php', {method: 'GET'}, redirect, console.log);
-
+    sendRequest('php/logout.php', { method: 'GET' }, redirect, console.log);
 }
 
 function redirect() {

@@ -10,16 +10,16 @@
     $requestUrl = $_SERVER['REQUEST_URI'];
     
     if(preg_match("/posts$/", $requestUrl)) {
-        if ($_SESSION) { // ima li startirana sesiya
-            if ($_SESSION['username']) { // imame li zapis za nashiya potrebitel
+        if ($_SESSION) { // is there a started session?
+            if ($_SESSION['username']) { // is there a record of the user 
                 $post = new Post('', '', '', '', '');
                 $posts = $post->getAllPosts();
 
-                echo json_encode(['success' => true, 'data' => $posts);
+                echo json_encode(['success' => true, 'data' => $posts); // sending it to index.js
             } else {
-                echo json_encode(['success' => false, 'data' => 'Unauthorized']);
+                echo json_encode(['success' => false, 'data' => 'Unauthorized']); // sending it to index.js
             }
-        } else { // ako nqma sesiya proverqvame dali imame setnato cookie
+        } else { // if no session is started, check if a cookie is set
             if ($_COOKIE['token']) {
                 $tokenUtility = new TokenUtility();
                 $isValid = $tokenUtility->checkToken($_COOKIE['token']);
@@ -32,19 +32,18 @@
                     $post = new Post('', '', '', '', '');
                     $posts = $post->getAllPosts();
 
-                    echo json_encode(['success' => true, 'data' => $posts);
+                    echo json_encode(['success' => true, 'data' => $posts); // sending it to index.js
                 } else {
-                    echo json_encode(['success' => false, 'data' => $isValid['error']]);
+                    echo json_encode(['success' => false, 'data' => $isValid['error']]); // sending it to index.js
                 }
             } else {
-                echo json_encode(['success' => false, 'data' => 'Session expired']);
+                echo json_encode(['success' => false, 'data' => 'Session expired']); // sending it to index.js
             }
         }
     } else if (preg_match("/addPost$/", $requestUrl)) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = json_decode($_POST['data'], true);
 
-            // TODO: check if all variables are string
             $occasion = isset($data['occasion']) ? testInput($data['occasion']) : '';
             $privacy = isset($data['privacy']) ? testInput($data['privacy']) : '';
             $occasionDate = isset($data['occasionDate']) ? testInput($data['occasionDate']) : '';
@@ -60,17 +59,18 @@
     }
 
     if ($errors) {
-        http_response_code(400);
+        http_response_code(400); 
 
-        echo json_encode($errors);
+        echo json_encode($errors); // sending it to index.js
     } else {
-        // Create DB record
-        $post = new Post(); 
-        // TODO: create post, add it to the DB, handle DB errors, show to the client
+        $post = new Post($data['occasion'], $data['privacy'], $data['occasionDate'], $data['location'], $data['content']); 
+        $post->addPost();
+        
+        // TODO: handle DB errors
 
         http_response_code(200);
 
-        echo json_encode($response);
+        echo json_encode($response); // sending it to index.js
     }
 
     function testInput($input) {
@@ -82,7 +82,6 @@
     }
     
     function validateData($data) {
-        // TODO: chech if all variables are string
         if (!$occasion) {
             $errors[] = 'Please enter occasion';
         } elseif (mb_strlen($occasion) > 20) {
@@ -104,17 +103,17 @@
         }
 
          if (!$location) {
-            $errors[] = 'Please enter occasion';
+            $errors[] = 'Please enter location';
         } elseif (mb_strlen($location) > 50) { 
-            $errors[] = 'Location can not be longer than 20 characters';
+            $errors[] = 'Location can not be longer than 50 characters';
         } else {
             $response['location'] = $location;
         }
 
          if (!$content) {
-            $errors[] = 'Please enter occasion';
+            $errors[] = 'Please enter content';
         } elseif (mb_strlen($occasion) > 100) {
-            $errors[] = 'Content can not be longer than 20 characters';
+            $errors[] = 'Content can not be longer than 100 characters';
         } else {
             $response['content'] = $content;
         }
