@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Club</title>
+    <script defer src="home.js"></script>
+    <!-- <script defer src="../js/mapService.js"></script> -->
+    <!-- <link rel="stylesheet" href="home.css" /> -->
+</head>
+
+<body>
+    <header>
+        <h1>Alumni Club</h1>
+        <nav>
+            <button id="profile">Profile</button>
+            <button id="logout">Logout</button>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <form>
+                <fieldset>
+                    <legend>Create Invitation</legend>
+
+                    <!-- Here we will add the validation errors that we found -->
+                    <label id="errors"></label>
+
+                    <label for="occasion">Occasion</label>
+                    <input id="occasion" name="occasion" type="text" />
+
+                    <label for="privacy">Privacy</label>
+                    <select id="privacy" name="privacy">
+                            <option value="all">All</option>
+                            <option value="group">Group</option>
+                            <option value="specialty">Specialty</option>
+                            <option value="faculty">Faculty</option>
+                            <option value="private">Private</option>
+                        </select>
+
+                    <label for="occasionDate">Date</label>
+                    <input id="occasionDate" name="ocassionDate" type="datetime-local" />
+
+                    <label for="location">Location</label>
+                    <input id="location" name="location" type="text" />
+
+                    <label for="content">Content</label>
+                    <input id="content" name="content" type="text" />
+
+                    <input id="submit" type="submit" value="Create Invitation" />
+                </fieldset>
+            </form>
+        </section>
+
+        <section>
+            <p>Click the button to get your coordinates.</p>
+            <button onclick="getLocation()">Try It</button>
+
+            <p id="demo"></p>
+            <p id="map" style="width:800px;height:400px;"></p>
+
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&callback=initMap&libraries=&v=weekly" async>
+                </script> -->
+        </section>
+
+        <section>
+            <header>
+                <h2>List of invitations</h2>
+            </header>
+
+            <table id="posts">
+                <tr>
+                    <th>Occasion</th>
+                    <th>Privacy</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Content</th>
+                </tr>
+
+
+            </table>
+        </section>
+    </main>
+</body>
+
+</html>

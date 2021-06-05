@@ -82,40 +82,40 @@
     }
     
     function validateData($data) {
-        if (!$occasion) {
+        if (!$data->occasion) {
             $errors[] = 'Please enter occasion';
-        } elseif (mb_strlen($occasion) > 20) {
+        } elseif (mb_strlen($data->occasion) > 20) {
             $errors[] = 'Occasion can not be longer than 20 characters';
         } else {
-            $response['occasion'] = $occasion;
+            $response['occasion'] = $data->occasion;
         }
 
-        if (!$privacy) {
+        if (!$data->privacy) {
             $errors[] = 'Please enter privacy';
         } else {
-            $response['privacy'] = $privacy;
+            $response['privacy'] = $data->privacy;
         }
 
-         if (!$occasionDate) {
+         if (!$data->occasionDate) {
             $errors[] = 'Please enter occasion date';
         } else {
-            $response['occasionDate'] = $occasionDate;
+            $response['occasionDate'] = $data->occasionDate;
         }
 
-         if (!$location) {
+         if (!$data->location) {
             $errors[] = 'Please enter location';
-        } elseif (mb_strlen($location) > 50) { 
+        } elseif (mb_strlen($data->location) > 50) { 
             $errors[] = 'Location can not be longer than 50 characters';
         } else {
-            $response['location'] = $location;
+            $response['location'] = $data->location;
         }
 
-         if (!$content) {
+         if (!$data->content) {
             $errors[] = 'Please enter content';
-        } elseif (mb_strlen($occasion) > 100) {
+        } elseif (mb_strlen($data->occasion) > 100) {
             $errors[] = 'Content can not be longer than 100 characters';
         } else {
-            $response['content'] = $content;
+            $response['content'] = $data->content;
         }
     }
 ?>
