@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require_once(realpath(dirname(__FILE__) . '/../services/postService.php'));
 
 // header('Content-Type: application/json');

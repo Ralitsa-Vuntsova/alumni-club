@@ -11,6 +11,34 @@
 //     sendRequest('../backend/endpoints/postEndpoint.php', { method: 'GET' }, loadPosts, console.log);
 // })();
 
+const logoutBtn = document.getElementById('logout');
+
+logoutBtn.addEventListener('click', () => {
+    logout();
+})
+
+function logout() {
+    fetch('../../backend/endpoints/logout.php', {
+        method: 'GET'
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Error logout user.');
+            }
+            return response.json();
+        })
+        .then(response => {
+            if (response.success) {
+                redirect();
+            }
+        })
+        .catch(error => {
+            const message = 'Грешка при изход на потребител.';
+            console.error(message);
+        });
+    
+}
+
 const submitPostBtn = document.getElementById('submit');
 
 submitPostBtn.addEventListener('click', () => {
@@ -19,25 +47,25 @@ submitPostBtn.addEventListener('click', () => {
     const occasionDate = document.getElementById('occasionDate').value;
     const location = document.getElementById('location').value;
     const content = document.getElementById('content').value;
-  
+
     // if (!fromHall || !toHall) {
     //   distMessage.innerText = 'Моля, въведете номерата и на двете зали.';
     //   distMessage.style.color = 'red';
     //   return;
     // }
-  
-    const formData = {
-      occasion: occasion, 
-      privacy: privacy,
-      occasionDate: occasionDate,
-      location: location,
-      content: content
-    };
-  
-    createPost(formData);
-  })
 
-  
+    const formData = {
+        occasion: occasion,
+        privacy: privacy,
+        occasionDate: occasionDate,
+        location: location,
+        content: content
+    };
+
+    createPost(formData);
+})
+
+
 async function getPosts() {
     fetch("../../backend/endpoints/getAllPostsEndpoint.php", {
         method: "GET",
@@ -180,14 +208,14 @@ function handleErrors(errors) {
     });
 }
 
-function logout(event) {
-    event.preventDefault();
+// function logout(event) {
+//     event.preventDefault();
 
-    sendRequest('../php/logout.php', { method: 'GET' }, redirect, console.log);
-}
+//     sendRequest('../php/logout.php', { method: 'GET' }, redirect, console.log);
+// }
 
 function redirect() {
-    window.location = 'login.html';
+    window.location = '../login/login.html';
 }
 
 getPosts();
