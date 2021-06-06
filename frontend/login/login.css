@@ -20,6 +20,7 @@ body{
     padding: 0 0 20px 0;
     border-bottom: 1px solid #cfcece;
     margin-bottom: 50px;
+    color: rgb(60,179,113);
 }
 
 .login-form{
@@ -30,6 +31,7 @@ body{
 .text-field{
     position: relative;
     margin: 20px 0;
+    color: rgb(60,179,113);
 }
 
 .text-field::placeholder{
