@@ -2,4 +2,123 @@ body{
     margin: 0;
     padding: 0;
     background-color: rgb(220,247,220);
+    font-family: cursive;
 }
+
+h1{
+    margin: 0;
+    font-size: 26px;
+    margin: 5px 15px;
+}
+
+.header{
+    background-color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    place-content: space-between;
+    color: rgb(60,179,113);
+}
+
+nav{
+   margin-right: 15px;
+}
+
+#profile, #logout {
+    border: 2px solid rgb(60,179,113);
+    color: rgb(60,179,113);
+    background: white;
+    border-radius: 25px;
+    font-size: 16px;
+    width: 100px;
+    padding: 5px 10px;
+    margin-top: 6px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-family: cursive;
+}
+
+#profile:hover, #logout:hover {
+    color: white;
+    background: rgb(60,179,113);
+}
+
+label{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 7px;
+    color: rgb(60,179,113);
+}
+
+input{
+    width: 250px;
+    margin-left: 7px;
+    border: 1px solid rgb(60,179,113);
+}
+
+#submit{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 55px;
+    background: rgb(60,179,113);
+    border-radius: 25px;
+    font-size: 16px;
+    width: 150px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: cursive;
+    border: none;
+    color: white;
+}
+
+#submit:hover{
+    font-weight: bold;
+}
+
+#privacy{
+    width: 258px;
+    height: 22px;
+    margin-left: 7px;
+    border: 1px solid rgb(60,179,113);
+}
+
+#occasionDate{
+    width: 253px;
+    height: 20px;
+}
+
+.create-invitation{
+    display: block;
+    border: 1px solid rgb(60,179,113);
+    border-radius: 25px;
+    width: 270px;
+    padding: 10px 10px;
+    margin: 30px 30px;
+}
+
+.create-invitation header{
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 1px solid rgb(60,179,113);
+    font-size: 20px;
+    color: rgb(60,179,113);
+}
+
+.list-of-invitations{
+    margin-left: 30px;
+}
+
+.list-of-invitations header{
+   font-size: 14px;
+   color: rgb(60,179,113);
+}
+
+.main{
+    display: none;
+}
+
+table tr{
+    border: 1px solid rgb(60,179,113);
+ }
