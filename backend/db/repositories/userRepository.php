@@ -87,6 +87,7 @@ class UserRepository {
             $this->selectUser = $this->database->getConnection()->prepare($sql);
             $this->selectUser->execute(["username" => $username]);
             $this->database->getConnection()->commit();
+            // $user = $query["data"]->fetch(PDO::FETCH_ASSOC);
             return array("success" => true, "data" => $this->selectUser);
         } catch(PDOException $e) {
             $this->database->getConnection()->rollBack();

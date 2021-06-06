@@ -1,9 +1,12 @@
 <?php
 
+// session_start();
+
 require_once(realpath(dirname(__FILE__) . '/../entities/user.php'));
 require_once(realpath(dirname(__FILE__) . '/../services/userService.php'));
 
-session_start();
+// $_SESSION['test'] = "test";
+// print_r($_SESSION);
 
 $userService = new UserService();
 
@@ -29,9 +32,11 @@ if (!isset($phpInput['username']) || !isset($phpInput['password'])) {
 
         try {
 
-            $userService->checkLogin($username, $password);
-
+            $userId = $userService->checkLogin($username, $password);
+          //  echo $userId;
+            $_SESSION['userId'] = $userId;
             $_SESSION['username'] = $phpInput['username'];
+
 
             echo json_encode([
                 'success' => true,

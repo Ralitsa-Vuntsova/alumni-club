@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once(realpath(dirname(__FILE__) . '/../services/postService.php'));
 
 // session_start();

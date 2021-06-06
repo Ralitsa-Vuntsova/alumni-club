@@ -27,7 +27,7 @@ class UserService
         ]);
     }
 
-    public function checkLogin($username, $password): void {
+    public function checkLogin($username, $password) {
 		
         $result = $this->userRepository->selectUserByUsernameQuery($username);
         
@@ -36,7 +36,8 @@ class UserService
 		} else if ($password != $result["success"]) {  // check with ISSET  
             throw new Exception("Грешна парола.");
         }
-
+        session_start();
+        return $result["data"]->fetch(PDO::FETCH_ASSOC)["id"];
 	}
 }
 ?>
