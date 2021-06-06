@@ -4,26 +4,24 @@
 <head>
     <meta charset="UTF-8" />
     <title>Вход</title>
-    <!--link href="./login.css" rel="stylesheet" /-->
+    <link href="./login.css" rel="stylesheet" />
     <script src="login.js" defer></script>
 </head>
 
 <body>
-    <div id="container">
-        <form id="login-form">
-            <h1 id="login-heading">Вход</h1>
+    <section class="container">
+        <h1 class="login-heading">Вход</h1>
+        <form class="login-form">
+            <label class="text-field" for="username">Потребителско име: </label>
+            <input class="text-field" id="username" type="text" name="username" placeholder="Въведи потребителско име">
 
-            <label for="username">Потребителско име: </label>
-            <input id="username" type="text" name="username" placeholder="Потребителско име">
+            <label class="text-field" for="password">Парола:</label>
+            <input class="text-field" id="password" type="password" name="password" placeholder="Въведи парола">
 
-            <label for="password">Парола:</label>
-            <input id="password" type="password" name="password" placeholder="Парола">
-
-            <button type="submit">Влез</button>
+            <button class="login-button" type="submit">Влез</button>
             <p id="user-message"></p>
-
         </form>
-    </div>
+    </section>
 </body>
 
 </html>
