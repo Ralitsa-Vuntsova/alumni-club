@@ -11,13 +11,40 @@
 //     sendRequest('../backend/endpoints/postEndpoint.php', { method: 'GET' }, loadPosts, console.log);
 // })();
 
+const submitPostBtn = document.getElementById('submit');
+
+submitPostBtn.addEventListener('click', () => {
+    const occasion = document.getElementById('occasion').value;
+    const privacy = document.getElementById('privacy').value;
+    const occasionDate = document.getElementById('occasionDate').value;
+    const location = document.getElementById('location').value;
+    const content = document.getElementById('content').value;
+  
+    // if (!fromHall || !toHall) {
+    //   distMessage.innerText = 'Моля, въведете номерата и на двете зали.';
+    //   distMessage.style.color = 'red';
+    //   return;
+    // }
+  
+    const formData = {
+      occasion: occasion, 
+      privacy: privacy,
+      occasionDate: occasionDate,
+      location: location,
+      content: content
+    };
+  
+    createPost(formData);
+  })
+
+  
 async function getPosts() {
-    fetch("../../backend/endpoints/postEndpoint.php", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-        })
+    fetch("../../backend/endpoints/getAllPostsEndpoint.php", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+    })
         .then((response) => {
             if (!response.ok) {
                 console.log(response);
@@ -35,6 +62,48 @@ async function getPosts() {
         });
 };
 
+// fetch('https://example.com/profile', {
+//   method: 'POST', // or 'PUT'
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(data),
+// })
+
+async function createPost(formData) {
+    const data = new FormData();
+    // data.append('item', JSON.stringify(formData));
+
+    fetch('../../backend/endpoints/createPostEndpoint.php', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(formData),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Error creating post.');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success === true) {
+                console.log("Постът е добавен успешно!");
+            } else {
+                console.log('Постът не е добавен успешно.');
+                //showDistanceError('Въведените номера на зали са некоректни');
+            }
+        })
+        .catch(error => {
+            const message = 'Грешка при намиране на разстояние между две зали.';
+            console.log(error);
+            //showDistanceError(message);
+            console.error(message);
+        });
+};
+
+
 // function placePosts(posts) {
 //     posts.forEach((post) => {
 //         const element = document.getElementById(hall.number);
@@ -49,7 +118,7 @@ function addPost(postData) {
     var postTable = document.getElementById('posts');
     var tr = document.createElement('tr');
 
-    Object.values(postData).forEach(function(data) {
+    Object.values(postData).forEach(function (data) {
         // console.log(data.value);
         // console.log(data.values);
         // console.log(data.content);
@@ -106,7 +175,7 @@ function handleErrors(errors) {
     errorsLabel.style.color = 'red';
 
     // there can be more than one error
-    errors.forEach(function(error) {
+    errors.forEach(function (error) {
         errorsLabel.innerHTML += error;
     });
 }

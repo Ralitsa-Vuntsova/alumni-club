@@ -13,29 +13,17 @@ class PostService
 
     public function getAllPosts()
     {
-        $query = $this->postRepository->selectPostsQuery();
-
-        return $query;
-        // if ($query["success"]) {
-        //     $posts = array();
-        //     while ($row = $this->selectPosts->fetch()) {
-        //         $post = new Post($row['id'], $row['occasion'], $row['privacy'], $row['occasionDate'], $row['location'], $row['content']);
-        //         array_push($posts, $post);
-        //     }
-        //     return $posts;
-        // } else {
-        //     return $query;
-        // }
+        return $this->postRepository->selectPostsQuery();
     }
 
-    public function addPost()
+    public function createPost($post)
     {
-        $query = $this->db->insertPostQuery([
-            "occasion" => $this->occasion,
-            "privacy" => $this->privacy,
-            "occasionDate" => $this->occasionDate,
-            "location" => $this->location,
-            "content" => $this->content
+        $query = $this->postRepository->insertPostQuery([
+            "occasion" => $post->occasion,
+            "privacy" => $post->privacy,
+            "occasionDate" => $post->occasionDate,
+            "location" => $post->location,
+            "content" => $post->content
         ]);
     }
 
