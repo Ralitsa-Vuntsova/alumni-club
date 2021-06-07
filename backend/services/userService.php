@@ -16,15 +16,21 @@ class UserService
         return $this->userRepository->selectUsersQuery();
     }
 
-    public function createUser($user)
+    public function updateUser($user)
     {
-        $query = $this->userRepository->insertUserQuery([
-            "occasion" => $user->occasion,
-            "privacy" => $user->privacy,
-            "occasionDate" => $user->occasionDate,
-            "location" => $user->location,
-            "content" => $user->content
+        $query = $this->userRepository->updateUserQuery([
+            "password" => $user->password,
+            "firstName" => $user->firstName,
+            "lastName" => $user->lastName,
+            "email" => $user->email
         ]);
+    }
+
+    public function getUser()
+    {
+        $result = $this->userRepository->selectUserByIdQuery($_SESSION['userId']);
+
+        return $result["data"]->fetch(PDO::FETCH_ASSOC);
     }
 
     public function checkLogin($username, $password) {

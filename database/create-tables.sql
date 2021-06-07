@@ -11,16 +11,17 @@ CREATE TABLE users (
   firstName       VARCHAR(20), -- NOT NULL,
   lastName        VARCHAR(20), -- NOT NULL,
   email           VARCHAR(30) NOT NULL UNIQUE,
-  role            ENUM('admin', 'user') -- NOT NULL
+  role            ENUM('admin', 'user'), -- NOT NULL
+  speciality      VARCHAR(50) NOT NULL,
+  graduationYear  YEAR(4) DEFAULT 1970,
+  groupUni        INT(10) NOT NULL,
+  faculty         VARCHAR(50) NOT NULL
 ) default charset utf8 comment '';
 
 CREATE TABLE additionalInfo (
   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
   userId          INT NOT NULL,
-  speciality      VARCHAR(50) NOT NULL,
-  graduationYear  YEAR(4) DEFAULT 1970,
-  groupUni        INT(10) NOT NULL,
-  faculty         VARCHAR(50) NOT NULL,
+ 
   locationId      INT NOT NULL
 ) default charset utf8 comment '';
 

@@ -29,15 +29,21 @@ function logout() {
         })
         .then(response => {
             if (response.success) {
-                redirect();
+                redirect('../login/login.html');
             }
         })
         .catch(error => {
             const message = 'Грешка при изход на потребител.';
             console.error(message);
         });
-    
+
 }
+
+const profileBtn = document.getElementById('profile');
+
+profileBtn.addEventListener('click', () => {
+    redirect('../profile/profile.html');
+})
 
 const submitPostBtn = document.getElementById('submit');
 
@@ -47,12 +53,6 @@ submitPostBtn.addEventListener('click', () => {
     const occasionDate = document.getElementById('occasionDate').value;
     const location = document.getElementById('location').value;
     const content = document.getElementById('content').value;
-
-    // if (!fromHall || !toHall) {
-    //   distMessage.innerText = 'Моля, въведете номерата и на двете зали.';
-    //   distMessage.style.color = 'red';
-    //   return;
-    // }
 
     const formData = {
         occasion: occasion,
@@ -75,15 +75,13 @@ async function getPosts() {
     })
         .then((response) => {
             if (!response.ok) {
-                console.log(response);
                 throw new Error("Error loading posts.");
             }
             return response.json();
         })
         .then((data) => {
             posts = data.value;
-            console.log("data posts:" + posts);
-            addPost(posts);
+            appendPosts(posts);
         })
         .catch((error) => {
             console.error("Error when loading posts: " + error);
@@ -100,7 +98,6 @@ async function getPosts() {
 
 async function createPost(formData) {
     const data = new FormData();
-    // data.append('item', JSON.stringify(formData));
 
     fetch('../../backend/endpoints/createPostEndpoint.php', {
         method: 'POST',
@@ -117,16 +114,14 @@ async function createPost(formData) {
         })
         .then((data) => {
             if (data.success === true) {
-                console.log("Постът е добавен успешно!");
+                console.log("The post is added successfully!");
             } else {
-                console.log('Постът не е добавен успешно.');
-                //showDistanceError('Въведените номера на зали са некоректни');
+                console.log('The post is NOT added successfully.');
             }
         })
         .catch(error => {
-            const message = 'Грешка при намиране на разстояние между две зали.';
+            const message = 'Error when creating a post.';
             console.log(error);
-            //showDistanceError(message);
             console.error(message);
         });
 };
@@ -142,20 +137,19 @@ async function createPost(formData) {
 // }
 
 // add post with the given data in the table in the html
-function addPost(postData) {
-    var postTable = document.getElementById('posts');
-    var tr = document.createElement('tr');
+function appendPosts(posts) {
+    var postSection = document.getElementById('list-of-invitations');
 
-    Object.values(postData).forEach(function (data) {
-        // console.log(data.value);
-        // console.log(data.values);
-        // console.log(data.content);
-        var td = document.createElement('td');
-        td.innerHTML = data.content;
-        tr.appendChild(td);
+    Object.values(posts).forEach(function (data) {
+        var article = document.createElement('article');
+        Object.values(data).forEach(function (property) {
+            var paragraph = document.createElement('p');
+            paragraph.innerHTML = property;
+            article.appendChild(paragraph);
+        });
+        postSection.appendChild(article);
     });
 
-    postTable.appendChild(tr);
 }
 // function sendForm(event) { // prepare the info from the form to be sent to the server
 //     // prevent the default behavior of the clicking the submit button (because we want things to happen async)
@@ -214,8 +208,8 @@ function handleErrors(errors) {
 //     sendRequest('../php/logout.php', { method: 'GET' }, redirect, console.log);
 // }
 
-function redirect() {
-    window.location = '../login/login.html';
+function redirect(path) {
+    window.location = path;
 }
 
 getPosts();

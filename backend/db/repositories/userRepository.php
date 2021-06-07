@@ -9,7 +9,7 @@ class UserRepository {
         private $selectUserById;
         private $insertToken;
         private $selectToken;
-        private $insertUser;
+        private $updateUser;
         private $selectUsers;
         private $selectUser;
 
@@ -30,20 +30,39 @@ class UserRepository {
             $this->selectToken = $this->database->getConnection()->prepare($sql);
         }
 
-    public function insertUserQuery($data)
-    {
-        $this->database->getConnection()->beginTransaction();   
-        try {
-            $sql = "INSERT INTO users(username, password, firstName, lastName, email, role) VALUES(:username, :password, :firstName, :lastName, :email, :role)";
-            $this->insertUser = $this->database->getConnection()->prepare($sql);
-            $this->insertUser->execute($data);
-            $this->database->getConnection()->commit();   
-            return ["success" => true];
-        } catch (PDOException $e) {
-            $this->database->getConnection()->rollBack();
-            return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+        public function updateUserQuery($data)
+        {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "UPDATE users SET password = :password, firstName = :firstName, 
+                        lastName = :lastName, email = :email WHERE id = '{$_SESSION['userId']}'";
+                $this->updateUser = $this->database->getConnection()->prepare($sql);
+                $this->updateUser->execute($data);
+                $this->database->getConnection()->commit();   
+                return ["success" => true];
+            } catch (PDOException $e) {
+                echo "exception test";
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
         }
-    }
+
+    // public function updateUserQuery($data)
+    // {
+    //     $this->database->getConnection()->beginTransaction();   
+    //     try {
+    //         $sql = "UPDATE users SET username = :username, password = :password, firstName = :firsName, 
+    //                 lastName = :lastName, email = :email, role = :role, speciality = :speciality, graduationYear = :graduationYear,
+    //                 groupUni = :groupUni, faculty = :faculty) WHERE id = '{$_SESSION['userId']}'";
+    //         $this->updateUser = $this->database->getConnection()->prepare($sql);
+    //         $this->updateUser->execute($data);
+    //         $this->database->getConnection()->commit();   
+    //         return ["success" => true];
+    //     } catch (PDOException $e) {
+    //         $this->database->getConnection()->rollBack();
+    //         return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+    //     }
+    // }
 
     public function selectUsersQuery() {
         $this->database->getConnection()->beginTransaction();
@@ -71,7 +90,7 @@ class UserRepository {
         try{
             $sql = "SELECT * FROM users WHERE id=:id";
             $this->selectUserById = $this->database->getConnection()->prepare($sql);
-            $this->selectUserById->execute([$data]);
+            $this->selectUserById->execute(["id" => $data]);
             $this->database->getConnection()->commit();
             return array("success" => true, "data" => $this->selectUserById);
         } catch(PDOException $e){

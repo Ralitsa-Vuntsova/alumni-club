@@ -1,50 +1,63 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User Profile</title>
-        <link rel="stylesheet" href="../style/styles.css"/>
-    </head>
 
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <script defer src="profile.js"></script>
+    <!--link rel="stylesheet" href="../style/styles.css"/-->
+</head>
+
+<body>
+    <header class="header">
+        <h1>Моят профил</h1>
+        <nav>
+            <button id="home">Начало</button>
+            <button id="logout">Изход</button>
+        </nav>
+    </header>
+
+    <section id="my-information" class="my-information">
         <header>
-            <h1>My Profile</h1>
-            <nav>
-                <button id="home">Home</button>
-                <button id="logout">Logout</button>
-            </nav>
+            <h2>За мен</h2>
         </header>
+        <form id="edit">
+            <!-- Here we will add the validation errors that we found -->
+            <label id="errors"></label>
 
-        <form>
-            <fieldset>
-                <legend>Edit Profile</legend>
-                <!-- Here we will add the validation errors that we found -->
-                <label id="errors"></label>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" readonly/>
 
-                <label for="firstName">First Name</label>
-                <input id="firstName" name="firstName" type="text" />
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password"/>
 
-                <label for="lastName">Last Name</label>
-                <input id="lastName" name="lastName" type="text" />
+            <label for="firstName">First Name</label>
+            <input id="firstName" name="firstName" type="text" />
 
-                <label for="email">E-mail Address</label>
-                <input id="email" name="email" type="text" />
+            <label for="lastName">Last Name</label>
+            <input id="lastName" name="lastName" type="text" />
 
-                <label for="speciality">Speciality</label>
-                <input id="speciality" name="speciality" type="text" />
+            <label for="email">E-mail Address</label>
+            <input id="email" name="email" type="email" />
 
-                <label for="graduationYear">Graduation Year</label>
-                <input id="graduationYear" name="graduationYear" type="number" />
+            <label for="speciality">Speciality</label>
+            <input id="speciality" name="speciality" type="text" readonly/>
 
-                <label for="groupUni">Group</label>
-                <input id="groupUni" name="groupUni" type="number" />
+            <label for="graduationYear">Graduation Year</label>
+            <input id="graduationYear" name="graduationYear" type="text" readonly/>
 
-                <label for="faculty">Faculty</label>
-                <input id="faculty" name="faculty" type="text" />
-            </fieldset>
+            <label for="groupUni">Group</label>
+            <input id="groupUni" name="groupUni" type="number" readonly/>
+
+            <label for="faculty">Faculty</label>
+            <input id="faculty" name="faculty" type="text" readonly/>
         </form>
-    </body>
+        <!--p id="edit"><b> Click "Edit" button to edit content. </b></p-->
+        <button type="submit" id="submit-button">Submit changes</button>
+    </section>
+</body>
+
 </html>
