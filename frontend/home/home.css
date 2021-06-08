@@ -91,11 +91,12 @@ input{
 
 .create-invitation{
     display: block;
-    border: 1px solid rgb(60,179,113);
+    border: none;
     border-radius: 25px;
     width: 270px;
     padding: 10px 10px;
     margin: 30px 30px;
+    background: white;
 }
 
 .create-invitation header{
@@ -115,6 +116,12 @@ input{
    color: rgb(60,179,113);
 }
 
-.main{
-    display: none;
+.list-of-invitations article{
+    background: white;
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+.list-of-invitations p{
+    display: inline-block;
 }

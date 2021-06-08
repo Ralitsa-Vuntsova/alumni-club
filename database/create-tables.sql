@@ -102,10 +102,10 @@ ALTER TABLE
 ADD
   CONSTRAINT FK_Posts_Users FOREIGN KEY (userId) REFERENCES users(id);
 
-ALTER TABLE
-  posts
-ADD
-  CONSTRAINT FK_Posts_Location FOREIGN KEY (locationId) REFERENCES locations(id);
+-- ALTER TABLE
+--   posts
+-- ADD
+--   CONSTRAINT FK_Posts_Location FOREIGN KEY (locationId) REFERENCES locations(id);
 
 ALTER TABLE
   comments

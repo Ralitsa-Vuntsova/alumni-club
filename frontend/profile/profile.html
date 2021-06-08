@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <script defer src="profile.js"></script>
-    <!--link rel="stylesheet" href="../style/styles.css"/-->
+    <link rel="stylesheet" href="./profile.css"/>
 </head>
 
 <body>
@@ -28,35 +28,35 @@
             <!-- Here we will add the validation errors that we found -->
             <label id="errors"></label>
 
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" readonly/>
+            <label class="text-field" for="username">Потребителско име</label>
+            <input class="text-field" id="username" name="username" type="text" readonly/>
 
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password"/>
+            <label class="text-field" for="password">Парола</label>
+            <input class="text-field" id="password" name="password" type="password"/>
 
-            <label for="firstName">First Name</label>
-            <input id="firstName" name="firstName" type="text" />
+            <label class="text-field" for="firstName">Име</label>
+            <input class="text-field" id="firstName" name="firstName" type="text" />
 
-            <label for="lastName">Last Name</label>
-            <input id="lastName" name="lastName" type="text" />
+            <label class="text-field" for="lastName">Фамилия</label>
+            <input class="text-field" id="lastName" name="lastName" type="text" />
 
-            <label for="email">E-mail Address</label>
-            <input id="email" name="email" type="email" />
+            <label class="text-field" for="email">Email</label>
+            <input class="text-field" id="email" name="email" type="email" />
 
-            <label for="speciality">Speciality</label>
-            <input id="speciality" name="speciality" type="text" readonly/>
+            <label class="text-field" for="speciality">Специалност</label>
+            <input class="text-field" id="speciality" name="speciality" type="text" readonly/>
 
-            <label for="graduationYear">Graduation Year</label>
-            <input id="graduationYear" name="graduationYear" type="text" readonly/>
+            <label class="text-field" for="graduationYear">Година на завършване</label>
+            <input class="text-field" id="graduationYear" name="graduationYear" type="text" readonly/>
 
-            <label for="groupUni">Group</label>
-            <input id="groupUni" name="groupUni" type="number" readonly/>
+            <label class="text-field" for="groupUni">Група</label>
+            <input class="text-field" id="groupUni" name="groupUni" type="number" readonly/>
 
-            <label for="faculty">Faculty</label>
-            <input id="faculty" name="faculty" type="text" readonly/>
+            <label class="text-field" for="faculty">Факултет</label>
+            <input class="text-field" id="faculty" name="faculty" type="text" readonly/>
+
+            <button type="submit" id="submit-button">Обнови</button>
         </form>
-        <!--p id="edit"><b> Click "Edit" button to edit content. </b></p-->
-        <button type="submit" id="submit-button">Submit changes</button>
     </section>
 </body>
 
