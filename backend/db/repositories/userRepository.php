@@ -1,14 +1,13 @@
 <?php
 require_once(realpath(dirname(__FILE__) . '/../dbConnection.php'));
 require_once(realpath(dirname(__FILE__) . '/../../entities/user.php'));
+require_once(realpath(dirname(__FILE__) . '/../../entities/nearbyUserInfo.php'));
 
 /**
  * All the statements about the users
  */
 class UserRepository {
         private $selectUserById;
-        private $insertToken;
-        private $selectToken;
         private $updateUser;
         private $selectUsers;
         private $selectUser;
@@ -18,15 +17,6 @@ class UserRepository {
         public function __construct()
         {
             $this->database = new Database();
-            $this->prepareStatements();
-        }
-
-        private function prepareStatements() {
-            $sql = "INSERT INTO tokens(token, userId, expires) VALUES (:token, :userId, :expires)";
-            $this->insertToken = $this->database->getConnection()->prepare($sql);
-
-            $sql = "SELECT * FROM tokens WHERE token=:token";
-            $this->selectToken = $this->database->getConnection()->prepare($sql);
         }
 
         public function updateUserQuery($data)
@@ -84,6 +74,27 @@ class UserRepository {
             }
         }
 
+        public function selectNearbyUsersInfoQuery() {
+            $this->database->getConnection()->beginTransaction();
+            try {
+                $sql = "SELECT * FROM users WHERE id <> '{$_SESSION['userId']}'";
+                $this->selectUsers = $this->database->getConnection()->prepare($sql);
+                $this->selectUsers->execute();
+
+                $users = array();
+                while ($row = $this->selectUsers->fetch())
+                {
+                    $user = new NearbyUser($row['email'], $row['firstName'], $row['lastName'], $row['speciality'], $row['graduationYear'], $row['groupUni'], $row['faculty'], $row['longitude'], $row['latitude']);
+                    array_push($users, $user);
+                }
+                $this->database->getConnection()->commit();
+                return $users;
+            } catch(PDOException $e) {
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
         public function selectUserByIdQuery($data) {
             $this->database->getConnection()->beginTransaction();
             try{
@@ -113,24 +124,22 @@ class UserRepository {
             }
         }
 
-        public function insertTokenQuery($data) {
-            try{
-                $this->insertToken->execute($data);
-                return array("success" => true, "data" => $this->insertToken);
-            } catch(PDOException $e){
+        public function updateCoordinatesQuery($data)
+        {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "UPDATE users SET longitude = :longitude, latitude =:latitude WHERE id = '{$_SESSION['userId']}'";
+                $this->updateUser = $this->database->getConnection()->prepare($sql);
+                $this->updateUser->execute($data);
+                $this->database->getConnection()->commit();   
+                return ["success" => true];
+            } catch (PDOException $e) {
+                echo "exception test";
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
 
-        public function selectTokenQuery($data) {
-            try{
-                $this->selectToken->execute($data);
-                return array("success" => true, "data" => $this->selectToken);
-            } catch(PDOException $e){
-                $this->database->getConnection()->rollBack();
-                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-            }
-        }
+
     }
 ?>

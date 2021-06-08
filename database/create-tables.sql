@@ -15,15 +15,17 @@ CREATE TABLE users (
   speciality      VARCHAR(50) NOT NULL,
   graduationYear  YEAR(4) DEFAULT 1970,
   groupUni        INT(10) NOT NULL,
-  faculty         VARCHAR(50) NOT NULL
+  faculty         VARCHAR(50) NOT NULL,
+--  coordinate      POINT
+  longitude       DECIMAL(10,7),
+  latitude        DECIMAL(10,7)
 ) default charset utf8 comment '';
 
-CREATE TABLE additionalInfo (
-  id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
-  userId          INT NOT NULL,
- 
-  locationId      INT NOT NULL
-) default charset utf8 comment '';
+/* then for insertion you can */
+-- INSERT INTO `buildings` 
+-- (`coordinate`) 
+-- VALUES
+-- (POINT(40.71727401 -74.00898606));
 
 CREATE TABLE contacts (
   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -32,12 +34,12 @@ CREATE TABLE contacts (
   createTime      DATETIME COMMENT 'create time'
 ) default charset utf8 comment '';
 
-CREATE TABLE locations (
-  id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
-  longitude       VARCHAR(30),
-  latitude        VARCHAR(30),
-  address         VARCHAR(30) NOT NULL
-) default charset utf8 comment '';
+-- CREATE TABLE locations (
+--   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
+--   longitude       VARCHAR(30),
+--   latitude        VARCHAR(30)
+-- --  address         VARCHAR(30) NOT NULL
+-- ) default charset utf8 comment '';
 
 -- posts = invitations
 CREATE TABLE posts (
@@ -76,16 +78,6 @@ CREATE TABLE tokens (
 ) default charset utf8 comment '';
 
 ALTER TABLE
-  additionalInfo
-ADD
-  CONSTRAINT FK_User_Info FOREIGN KEY (userId) REFERENCES users(id);
-
--- ALTER TABLE
---   additionalInfo
--- ADD
---   CONSTRAINT FK_Location_Info FOREIGN KEY (locationId) REFERENCES locations(id);
-
-ALTER TABLE
   contacts
 ADD
   CONSTRAINT FK_Contact_User_1 FOREIGN KEY (firstUserId) REFERENCES users(id);
@@ -99,11 +91,6 @@ ALTER TABLE
   posts
 ADD
   CONSTRAINT FK_Posts_Users FOREIGN KEY (userId) REFERENCES users(id);
-
--- ALTER TABLE
---   posts
--- ADD
---   CONSTRAINT FK_Posts_Location FOREIGN KEY (locationId) REFERENCES locations(id);
 
 ALTER TABLE
   comments

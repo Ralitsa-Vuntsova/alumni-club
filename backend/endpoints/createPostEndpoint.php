@@ -27,6 +27,6 @@
 
     echo json_encode([
         'success' => true,
-        'message' => "The post is created successfuly.",
+        'message' => "The post is created successfully.",
     ]);
 ?>

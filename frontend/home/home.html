@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Алумни клуб</title>
     <script defer src="home.js"></script>
-    <!-- <script defer src="../js/mapService.js"></script> -->
+    <script defer src="./mapService.js"></script>
     <link rel="stylesheet" href="./home.css" />
 </head>
 
@@ -55,23 +55,27 @@
             </form>
         </section>
 
-        <!--
         <section>
             <p>Click the button to get your coordinates.</p>
             <button onclick="getLocation()">Try It</button>
 
             <p id="demo"></p>
-            <p id="map" style="width:800px;height:400px;"></p>
+            <p id="map" style="width:500px;height:300px;"></p>
 
-            Async script executes immediately and must be after any DOM elements used in callback.
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&callback=initMap&libraries=&v=weekly" async>
+            <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&libraries=places&v=weekly" async>
             </script>
+            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&libraries=places"></script> -->
         </section>
-        -->
 
         <section id="list-of-invitations" class="list-of-invitations">
             <header>
                 <h2>Списък с покани</h2>
+            </header>
+        </section>
+
+        <section id="nearby-alumnis">
+            <header>
+                <h2>Алумни наблизо</h2>
             </header>
         </section>
     </main>

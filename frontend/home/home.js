@@ -126,8 +126,45 @@ function appendPosts(posts) {
     });
 }
 
+async function getAllNearbyUsers(){
+    fetch("../../backend/endpoints/nearbyUsers.php", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error loading nearby users.");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data.value);
+            appendNearbyUsers(data.value);
+        })
+        .catch((error) => {
+            console.error("Error when loading nearby users: " + error);
+        });
+}
+
+function appendNearbyUsers(users) {
+    var userSection = document.getElementById('nearby-alumnis');
+
+    Object.values(users).forEach(function (data) {
+        var article = document.createElement('article');
+        Object.values(data).forEach(function (property) {
+            var paragraph = document.createElement('p');
+            paragraph.innerHTML = property;
+            article.appendChild(paragraph);
+        });
+        userSection.appendChild(article);
+    });
+}
+
 function redirect(path) {
     window.location = path;
 }
 
 getPosts();
+getAllNearbyUsers();
