@@ -80,12 +80,10 @@ ALTER TABLE
 ADD
   CONSTRAINT FK_User_Info FOREIGN KEY (userId) REFERENCES users(id);
 
-
 -- ALTER TABLE
 --   additionalInfo
 -- ADD
 --   CONSTRAINT FK_Location_Info FOREIGN KEY (locationId) REFERENCES locations(id);
-  
 
 ALTER TABLE
   contacts

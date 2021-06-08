@@ -1,6 +1,5 @@
 <?php
     class Database {
-
         // data base info is in config file because the data can be changed easily that way
         public function __construct() {
             $config = parse_ini_file('../../config/config.ini', true);
@@ -14,13 +13,10 @@
             $this->init($type, $host, $name, $user, $password);
         }
 
-        // coonect to the DB, prepare the sql statements
         private function init($type, $host, $name, $user, $password) {
             try {
                 $this->connection = new PDO("$type:host=$host;dbname=$name", $user, $password,
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-
-                // $this->prepareStatements();
             } catch(PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }

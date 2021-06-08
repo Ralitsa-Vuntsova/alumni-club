@@ -1,7 +1,5 @@
 <?php
-
   require_once(realpath(dirname(__FILE__) . '/../entities/user.php'));
-
 
   session_start();
 
@@ -9,7 +7,7 @@
     $sql = "SELECT * FROM `users` WHERE username = :username";
     $query = $connection->prepare($sql);
     $query->execute(['username' => $username]);
-  
+
     while ($row = $query->fetch()) {
       $user = new User($row["id"], $row["username"], null, null, null, null, $row["roles_id"]);
     }
@@ -18,7 +16,6 @@
   }
 
   if (isset($_SESSION['username'])) {
-
     $username = $_SESSION['username'];
 
     try {
@@ -48,5 +45,4 @@
       'value' => false
     ]);
   } 
-
 ?>

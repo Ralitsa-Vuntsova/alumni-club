@@ -1,18 +1,18 @@
 <?php
+    session_start();
 
-session_start();
+    require_once(realpath(dirname(__FILE__) . '/../entities/user.php'));
+    require_once(realpath(dirname(__FILE__) . '/../services/userService.php'));
 
-require_once(realpath(dirname(__FILE__) . '/../entities/user.php'));
-require_once(realpath(dirname(__FILE__) . '/../services/userService.php'));
+    $userService = new UserService();
 
-$userService = new UserService();
+    function getUserInfo($userService) {
+        return $userService->getUser();
+    }
 
-function getUserInfo($userService) {
-    return $userService->getUser();
-}
-
-echo json_encode([
-    "success" => true,
-    "message" => "User information.",
-    "value" => getUserInfo($userService)
-]);
+    echo json_encode([
+        "success" => true,
+        "message" => "User information.",
+        "value" => getUserInfo($userService)
+    ]);
+?>

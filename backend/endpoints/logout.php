@@ -1,15 +1,12 @@
-  
 <?php
+    session_start();
 
-session_start();
+    session_unset();
 
-session_unset();
+    session_destroy();
 
-session_destroy();
-
-echo json_encode([
-    'success' => true,
-    'message' => "Потребителят е излязъл от системата."
-    ]);
-
+    echo json_encode([
+        'success' => true,
+        'message' => "Потребителят е излязъл от системата."
+        ]);
 ?>

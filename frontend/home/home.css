@@ -124,4 +124,5 @@ input{
 
 .list-of-invitations p{
     display: inline-block;
+    margin-right: 10px;
 }

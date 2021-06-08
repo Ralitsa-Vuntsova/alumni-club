@@ -44,7 +44,7 @@ function logout() {
       }
     })
     .catch(error => {
-      const message = 'Грешка при изход на потребител.';
+      const message = 'Error logout user.';
       console.error(message);
     });
 
@@ -94,7 +94,6 @@ async function getProfileInfo() {
 };
 
 function appendProfileInfo(userInfo) {
-
   document.getElementById("username").value = userInfo.username;
   document.getElementById("password").value = userInfo.password;
   document.getElementById("firstName").value = userInfo.firstName;
@@ -110,7 +109,7 @@ async function updateProfile(formData) {
   const data = new FormData();
 
   fetch('../../backend/endpoints/modifyProfile.php', {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
@@ -124,9 +123,9 @@ async function updateProfile(formData) {
     })
     .then((data) => {
       if (data.success === true) {
-        console.log("The profile is updated successfully!");
+        console.log("The profile is updated successfully.");
       } else {
-        console.log('The profile is NOT updated successfully!');
+        console.log('The profile is NOT updated successfully.');
       }
     })
     .catch(error => {

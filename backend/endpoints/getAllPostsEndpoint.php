@@ -1,30 +1,17 @@
 <?php
+    session_start();
 
-session_start();
+    require_once(realpath(dirname(__FILE__) . '/../services/postService.php'));
 
-require_once(realpath(dirname(__FILE__) . '/../services/postService.php'));
+    $postService = new PostService();
 
-// header('Content-Type: application/json');
+    function getPosts($postService) {
+        return $postService->getAllPosts();
+    }
 
-// $phpInput = json_decode(file_get_contents('php://input'), true);
-
-$postService = new PostService();
-
-function getPosts($postService) {
-    return $postService->getAllPosts();
-}
-
-
-// echo json_encode([
-//     "success" => true,
-//     "message" => "List of all posts.",
-//     "value" => getPosts($postService)
-// ], JSON_UNESCAPED_UNICODE);
-
-echo json_encode([
-    "success" => true,
-    "message" => "List of all posts.",
-    "value" => getPosts($postService)
-]);
-
+    echo json_encode([
+        "success" => true,
+        "message" => "List of all posts.",
+        "value" => getPosts($postService)
+    ]);
 ?>

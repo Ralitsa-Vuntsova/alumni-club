@@ -15,6 +15,5 @@
             $this->location = $location;
             $this->content = $content;
         }
-
     }
 ?>
