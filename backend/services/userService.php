@@ -63,12 +63,15 @@
           }
 
           public function getAllNearbyUsers(){
-            $radius = 5;
+            $radius = 50;
             $allUsers = $this->userRepository->selectNearbyUsersInfoQuery();
             $currentUser = $this->getUser();
             $result = array();
 
             foreach ($allUsers as $user) {
+                if($user->latitude == null && $user->longitude == null) {
+                    continue;
+                }
                 $distance = $this->getDistance($currentUser["latitude"], $currentUser["longitude"], $user->latitude, $user->longitude);
                 if($distance < $radius){
                     array_push($result, $user);

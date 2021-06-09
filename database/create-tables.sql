@@ -70,12 +70,12 @@ CREATE TABLE comments (
   createTime      DATETIME COMMENT 'create time'
 ) default charset utf8 comment '';
 
-CREATE TABLE tokens (
-  id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
-  token           VARCHAR(255),
-  userId          INT NOT NULL,
-  expires         DATETIME
-) default charset utf8 comment '';
+-- CREATE TABLE tokens (
+--   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
+--   token           VARCHAR(255),
+--   userId          INT NOT NULL,
+--   expires         DATETIME
+-- ) default charset utf8 comment '';
 
 ALTER TABLE
   contacts
@@ -102,7 +102,7 @@ ALTER TABLE
 ADD
   CONSTRAINT FK_Comments_Users FOREIGN KEY (userId) REFERENCES users(id);
 
-ALTER TABLE
-  tokens
-ADD
-  CONSTRAINT FK_Tokens_Users FOREIGN KEY (userId) REFERENCES users(id);
+-- ALTER TABLE
+--   tokens
+-- ADD
+--   CONSTRAINT FK_Tokens_Users FOREIGN KEY (userId) REFERENCES users(id);

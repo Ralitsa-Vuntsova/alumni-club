@@ -126,7 +126,7 @@ function appendPosts(posts) {
     });
 }
 
-async function getAllNearbyUsers(){
+async function getAllNearbyUsers() {
     fetch("../../backend/endpoints/nearbyUsers.php", {
         method: "GET",
         headers: {
@@ -140,8 +140,9 @@ async function getAllNearbyUsers(){
             return response.json();
         })
         .then((data) => {
-            console.log(data.value);
+            // console.log(data.value);
             appendNearbyUsers(data.value);
+            showMarkers(data.value);
         })
         .catch((error) => {
             console.error("Error when loading nearby users: " + error);
@@ -153,7 +154,8 @@ function appendNearbyUsers(users) {
 
     Object.values(users).forEach(function (data) {
         var article = document.createElement('article');
-        Object.values(data).forEach(function (property) {
+        const { email, longitude, latitude, ...res } = data; // omits specific properties from an object in JavaScript
+        Object.values(res).forEach(function (property) {
             var paragraph = document.createElement('p');
             paragraph.innerHTML = property;
             article.appendChild(paragraph);
@@ -162,9 +164,86 @@ function appendNearbyUsers(users) {
     });
 }
 
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(initMap);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+let map;
+
+function updateCoordinates(position) {
+    fetch('../../backend/endpoints/updateUserCoordinates.php', {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(position),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Error updating coordinates.');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success === true) {
+                console.log("The coordinates are updated successfully.");
+            } else {
+                console.log('The coordinates are NOT updated successfully.');
+            }
+        })
+        .catch(error => {
+            const message = 'Error when updating coordinates.';
+            console.log(error);
+            console.error(message);
+        });
+}
+
+function initMap(position) {
+    const API_KEY = "AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8";
+
+    const currentLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+    };
+
+    const updateCoords = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+    };
+
+    updateCoordinates(updateCoords);
+
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 7,
+        center: currentLocation,
+    });
+
+    const marker = new google.maps.Marker({
+        position: currentLocation,
+        map: map,
+    });
+    getAllNearbyUsers();
+}
+
+function showMarkers(features) {
+    for (let i = 0; i < features.length; i++) {
+        console.log(features[i].latitude);
+        const marker = new google.maps.Marker({
+            position: new google.maps.LatLng(features[i].latitude, features[i].longitude),
+            label: `${i + 1}`,
+            map: map,
+        });
+    }
+}
+
 function redirect(path) {
     window.location = path;
 }
 
 getPosts();
-getAllNearbyUsers();
