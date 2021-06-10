@@ -63,7 +63,7 @@
           }
 
           public function getAllNearbyUsers(){
-            $radius = 50;
+            $radius = 5;
             $allUsers = $this->userRepository->selectNearbyUsersInfoQuery();
             $currentUser = $this->getUser();
             $result = array();

@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Алумни клуб</title>
     <script defer src="home.js"></script>
-    <script defer src="./mapService.js"></script>
     <link rel="stylesheet" href="./home.css" />
 </head>
 
@@ -22,60 +21,60 @@
     </header>
 
     <main>
-        <section class="create-invitation">
-            <header>
-                Създаване на покана
-            </header>
-            <form>
-                <!-- Here we will add the validation errors that we found -->
-                <label id="errors"></label>
+        <section id="three-columns">
+            <section id="create-invitation" class="column-left">
+                <header>
+                    Създаване на покана
+                </header>
+                <form>
+                    <!-- Here we will add the validation errors that we found -->
+                    <label id="errors"></label>
 
-                <label for="occasion">Събитие</label>
-                <input id="occasion" name="occasion" type="text" />
+                    <label for="occasion">Събитие</label>
+                    <input id="occasion" name="occasion" type="text" />
 
-                <label for="privacy">Поверителност</label>
-                <select id="privacy" name="privacy">
-                        <option value="all">Всички</option>
-                        <option value="group">Група</option>
-                        <option value="specialty">Специалност</option>
-                        <option value="faculty">Факултет</option>
-                        <option value="private">Приятели</option>
-                    </select>
+                    <label for="privacy">Поверителност</label>
+                    <select id="privacy" name="privacy">
+                            <option value="all">Всички</option>
+                            <option value="group">Група</option>
+                            <option value="specialty">Специалност</option>
+                            <option value="faculty">Факултет</option>
+                            <option value="private">Приятели</option>
+                        </select>
 
-                <label for="occasionDate">Дата</label>
-                <input id="occasionDate" name="ocassionDate" type="datetime-local" />
+                    <label for="occasionDate">Дата</label>
+                    <input id="occasionDate" name="ocassionDate" type="datetime-local" />
 
-                <label for="location">Място</label>
-                <input id="location" name="location" type="text" />
+                    <label for="location">Място</label>
+                    <input id="location" name="location" type="text" />
 
-                <label for="content">Съдържание</label>
-                <input id="content" name="content" type="text" />
+                    <label for="content">Съдържание</label>
+                    <input id="content" name="content" type="text" />
 
-                <button id="submit" type="submit">Създай покана</button>
-            </form>
-        </section>
+                    <button id="submit" type="submit">Създай покана</button>
+                </form>
+            </section>
 
-        <section>
-            <p>Click the button to get your coordinates.</p>
-            <button onclick="getLocation()">Открий алумни наблизо</button>
+            <section id="find-alumnis" class="column-middle">
+                <button onclick="getLocation()">Открий алумни наблизо</button>
 
-            <p id="demo"></p>
-            <p id="map" style="width:500px;height:300px;"></p>
+                <p id="demo"></p>
+                <p id="map" style="width:500px;height:300px;"></p>
 
-            <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&libraries=places&v=weekly" async>
-            </script>
-            <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&libraries=places"></script> -->
+                <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&libraries=places&v=weekly" async></script>
+                <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCoz_XLjdVs9EX8VHBxO3YEPiiWMznKi8&libraries=places"></script> -->
+            </section>
+
+            <section id="nearby-alumnis" class="column-right">
+                <header>
+                    <p>Алумни наблизо</p>
+                </header>
+            </section>
         </section>
 
         <section id="list-of-invitations" class="list-of-invitations">
             <header>
-                <h2>Списък с покани</h2>
-            </header>
-        </section>
-
-        <section id="nearby-alumnis">
-            <header>
-                <h2>Алумни наблизо</h2>
+                <p>Списък с покани</p>
             </header>
         </section>
     </main>
