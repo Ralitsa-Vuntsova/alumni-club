@@ -8,6 +8,7 @@ require_once(realpath(dirname(__FILE__) . '/../../entities/post.php'));
 class PostRepository {
         private $insertPost;
         private $selectPosts;
+        private $countPosts;
 
         private $database;
 
@@ -47,6 +48,22 @@ class PostRepository {
                 }
                 return $posts;
             } catch(PDOException $e) {
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectPostsCountQuery()
+        {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "SELECT COUNT(id) FROM posts";
+                $this->countPosts = $this->database->getConnection()->prepare($sql);
+                $this->countPosts->execute();
+                $this->database->getConnection()->commit();   
+                return ["success" => true, "data" => $this->countPosts];
+            } catch (PDOException $e) {
+                echo "exception test";
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }

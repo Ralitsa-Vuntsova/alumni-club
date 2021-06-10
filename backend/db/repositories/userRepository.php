@@ -11,6 +11,8 @@ class UserRepository {
         private $updateUser;
         private $selectUsers;
         private $selectUser;
+        private $groupUsersBy;
+        private $countUsers;
 
         private $database;
 
@@ -140,6 +142,44 @@ class UserRepository {
             }
         }
 
+        public function groupUsersQuery($column)
+        {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "SELECT COUNT(id), ${column} FROM users GROUP BY ${column}";
+                $this->groupUsers = $this->database->getConnection()->prepare($sql);
+                $this->groupUsers->execute();   
+                
+                $columns = array();
+                $counts = array();
+                while ($row = $this->groupUsers->fetch())
+                {
+                    array_push($columns, $row["${column}"]);
+                    array_push($counts, $row['COUNT(id)']);
+                }
+                $this->database->getConnection()->commit();
+                return [$columns, $counts];
+            } catch (PDOException $e) {
+                echo "exception test";
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
 
+        public function selectUsersCountQuery()
+        {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "SELECT COUNT(id) FROM users";
+                $this->countUsers = $this->database->getConnection()->prepare($sql);
+                $this->countUsers->execute();
+                $this->database->getConnection()->commit();   
+                return ["success" => true, "data" => $this->countUsers];
+            } catch (PDOException $e) {
+                echo "exception test";
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
     }
 ?>

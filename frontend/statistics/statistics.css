@@ -1,0 +1,9 @@
+#statistics{
+    display: block;
+    max-width: 100%;
+}
+
+#user-count, #post-count{
+    display: inline-block;
+}
+

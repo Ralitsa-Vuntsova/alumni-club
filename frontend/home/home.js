@@ -23,7 +23,6 @@ function logout() {
             const message = 'Error logout user.';
             console.error(message);
         });
-
 }
 
 const profileBtn = document.getElementById('profile');
@@ -108,11 +107,17 @@ function appendPosts(posts) {
     var postSection = document.getElementById('list-of-invitations');
 
     Object.values(posts).forEach(function (data) {
+        const { id, ...res } = data; 
         var article = document.createElement('article');
-        Object.values(data).forEach(function (property) {
+
+        var counter = 1;
+        Object.values(res).forEach(function (property) {
             var paragraph = document.createElement('p');
             paragraph.innerHTML = property;
+            console.log(property);
             article.appendChild(paragraph);
+
+            paragraph.setAttribute('class', `prop-${counter++}`);
         });
         postSection.appendChild(article);
     });
@@ -145,7 +150,13 @@ function appendNearbyUsers(users) {
     var userSection = document.getElementById('nearby-alumnis');
 
     Object.values(users).forEach(function (data) {
+        var counter = 1;
         var article = document.createElement('article');
+        var markerIndex = document.createElement('p');
+        markerIndex.setAttribute('class', 'marker-index');
+        markerIndex.innerHTML += counter;
+        article.appendChild(markerIndex);
+        
         const { email, longitude, latitude, ...res } = data; // omits specific properties from an object in JavaScript
         Object.values(res).forEach(function (property) {
             var paragraph = document.createElement('p');
@@ -153,6 +164,7 @@ function appendNearbyUsers(users) {
             article.appendChild(paragraph);
         });
         userSection.appendChild(article);
+        counter++;
     });
 }
 
@@ -164,6 +176,8 @@ function getLocation() {
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
+
+    document.getElementById("button-find-alumnis").disabled = true;
 }
 
 let map;
@@ -212,7 +226,7 @@ function initMap(position) {
     updateCoordinates(updateCoords);
 
     map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 7,
+        zoom: 10,
         center: currentLocation,
     });
 
