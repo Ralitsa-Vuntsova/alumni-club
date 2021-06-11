@@ -1,3 +1,42 @@
+const logoutBtn = document.getElementById('logout');
+
+logoutBtn.addEventListener('click', () => {
+    logout();
+})
+
+const homeBtn = document.getElementById('home');
+
+homeBtn.addEventListener('click', () => {
+  redirect('../home/home.html');
+})
+
+const profileBtn = document.getElementById('profile');
+
+profileBtn.addEventListener('click', () => {
+    redirect('../profile/profile.html');
+})
+
+function logout() {
+  fetch('../../backend/endpoints/logout.php', {
+      method: 'GET'
+  })
+      .then((response) => {
+          if (!response.ok) {
+              throw new Error('Error logout user.');
+          }
+          return response.json();
+      })
+      .then(response => {
+          if (response.success) {
+              redirect('../login/login.html');
+          }
+      })
+      .catch(error => {
+          const message = 'Error logout user.';
+          console.error(message);
+      });
+}
+
 function getStatistics(){
     fetch('../../backend/endpoints/statistics.php', {
         method: 'GET'
@@ -77,6 +116,10 @@ function getStatisticsIndicator(statistics, element, text){
       };
       
       Plotly.newPlot(element, data, layout);
+}
+
+function redirect(path) {
+  window.location = path;
 }
 
 getStatistics();

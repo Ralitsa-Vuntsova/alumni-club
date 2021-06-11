@@ -6,12 +6,13 @@
     $postService = new PostService();
 
     function getPosts($postService) {
-        return $postService->getAllPosts();
+        return $postService->filterPosts();
     }
 
     echo json_encode([
         "success" => true,
         "message" => "List of all posts.",
-        "value" => getPosts($postService)
+        "value" => getPosts($postService), 
+        // "role" => $_SESSION['role']
     ]);
 ?>

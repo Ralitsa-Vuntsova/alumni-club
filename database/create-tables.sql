@@ -48,7 +48,7 @@ CREATE TABLE posts (
   privacy         ENUM(
                       'all',
                       'group',
-                      'specialty',
+                      'speciality',
                       'faculty',
                       'private' -- a.k.a people in your contacts
                   ) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE posts (
   location        VARCHAR(255) NOT NULL,
   content         VARCHAR(255) NOT NULL,
   occasionDate    DATETIME COMMENT 'event time' NOT NULL,
-  createTime      DATETIME COMMENT 'create time', -- NOT NULL,
+  createTime      DATETIME DEFAULT NOW() COMMENT 'create time', -- NOT NULL,
   likes           INT -- coming to the event
 ) default charset utf8 comment '';
 

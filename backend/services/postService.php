@@ -24,5 +24,33 @@
                 "content" => $post->content
             ]);
         }
+
+        public function filterPosts()
+        {
+            $allUserPosts = $this->postRepository->selectPostUserQuery();
+           
+            $result = array();
+            foreach ($allUserPosts as $post) {
+                if($post->privacy == "faculty" && $_SESSION['faculty'] == $post->faculty){
+                    array_push($result, $post);
+                }
+                else if($post->privacy == "speciality" && $_SESSION['speciality'] == $post->speciality){
+                    array_push($result, $post);
+                }
+                else if($post->privacy == "group"
+                                    && $_SESSION['graduationYear'] == $post->graduationYear
+                                    && $_SESSION['faculty'] == $post->faculty 
+                                    && $_SESSION['speciality'] == $post->speciality
+                                    && $_SESSION['groupUni'] == $post->groupUni){
+                    array_push($result, $post);
+                }
+                else if($post->privacy == "all"){
+                    array_push($result, $post); // privacy: all users
+                }
+            }
+
+            return $result;
+        }
+
     }
 ?>

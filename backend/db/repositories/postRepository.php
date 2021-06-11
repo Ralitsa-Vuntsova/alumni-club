@@ -1,6 +1,7 @@
 <?php
 require_once(realpath(dirname(__FILE__) . '/../dbConnection.php'));
 require_once(realpath(dirname(__FILE__) . '/../../entities/post.php'));
+require_once(realpath(dirname(__FILE__) . '/../../entities/userPost.php'));
 
 /**
  * All the statements about the posts
@@ -9,6 +10,7 @@ class PostRepository {
         private $insertPost;
         private $selectPosts;
         private $countPosts;
+        private $selectPostUser;
 
         private $database;
 
@@ -64,6 +66,31 @@ class PostRepository {
                 return ["success" => true, "data" => $this->countPosts];
             } catch (PDOException $e) {
                 echo "exception test";
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectPostUserQuery() {
+            $this->database->getConnection()->beginTransaction();
+            try {
+                $sql = "SELECT * FROM posts INNER JOIN users ON posts.userId=users.id";
+                $this->selectPostUser = $this->database->getConnection()->prepare($sql);
+                $this->selectPostUser->execute();
+
+                $postUserArray = array();
+                while ($row = $this->selectPostUser->fetch())
+                {
+                    $userPost = new UserPost( $row['occasion'], $row['privacy'],
+                        $row['occasionDate'], $row['location'], $row['content'],
+                        $row['speciality'], $row['groupUni'], $row['faculty'], $row['graduationYear']); 
+                    array_push($postUserArray, $userPost);
+                }
+               
+
+                return $postUserArray;
+                
+            } catch(PDOException $e) {
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }

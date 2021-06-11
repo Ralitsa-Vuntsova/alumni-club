@@ -13,6 +13,7 @@ class UserRepository {
         private $selectUser;
         private $groupUsersBy;
         private $countUsers;
+        private $userRole;
 
         private $database;
 
@@ -177,6 +178,20 @@ class UserRepository {
                 return ["success" => true, "data" => $this->countUsers];
             } catch (PDOException $e) {
                 echo "exception test";
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectUserRoleDataQuery() {
+            $this->database->getConnection()->beginTransaction();
+            try{
+                $sql = "SELECT speciality, groupUni, faculty, role, graduationYear FROM users WHERE id = '{$_SESSION['userId']}'";
+                $this->userRole = $this->database->getConnection()->prepare($sql);
+                $this->userRole->execute();
+                $this->database->getConnection()->commit();
+                return array("success" => true, "data" => $this->userRole);
+            } catch(PDOException $e){
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }

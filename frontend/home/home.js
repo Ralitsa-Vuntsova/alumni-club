@@ -4,6 +4,12 @@ logoutBtn.addEventListener('click', () => {
     logout();
 })
 
+const statisticsBtn = document.getElementById('statistics');
+
+statisticsBtn.addEventListener('click', () => {
+    redirect("../statistics/statistics.html");
+})
+
 function logout() {
     fetch('../../backend/endpoints/logout.php', {
         method: 'GET'
@@ -149,12 +155,12 @@ async function getAllNearbyUsers() {
 function appendNearbyUsers(users) {
     var userSection = document.getElementById('nearby-alumnis');
 
+    var counter = 1;
     Object.values(users).forEach(function (data) {
-        var counter = 1;
         var article = document.createElement('article');
         var markerIndex = document.createElement('p');
         markerIndex.setAttribute('class', 'marker-index');
-        markerIndex.innerHTML += counter;
+        markerIndex.innerHTML = counter;
         article.appendChild(markerIndex);
         
         const { email, longitude, latitude, ...res } = data; // omits specific properties from an object in JavaScript

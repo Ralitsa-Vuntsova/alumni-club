@@ -80,5 +80,9 @@
             
             return $result;
         }
+
+        public function getUserRoleData(){
+            return $this->userRepository->selectUserRoleDataQuery();
+        }
     }
 ?>

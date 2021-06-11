@@ -25,6 +25,14 @@
             try {
                 $userId = $userService->checkLogin($username, $password);
                 $_SESSION['userId'] = $userId;
+
+                $info = $userService->getUserRoleData()["data"]->fetch(PDO::FETCH_ASSOC);
+                $_SESSION['role'] = $info["role"];
+                $_SESSION['faculty'] = $info["faculty"];
+                $_SESSION['speciality'] = $info["speciality"];
+                $_SESSION['groupUni'] = $info["groupUni"];
+                $_SESSION['graduationYear'] = $info["graduationYear"];
+
                 $_SESSION['username'] = $phpInput['username'];
 
                 echo json_encode([
