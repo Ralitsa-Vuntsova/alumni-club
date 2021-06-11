@@ -1,9 +1,65 @@
-#statistics{
-    display: block;
-    max-width: 100%;
+body{
+    margin: 0;
+    padding: 0;
+    background-color: rgb(220,247,220);
+    font-family: cursive;
 }
 
 #user-count, #post-count{
     display: inline-block;
+    margin-top: 50px;
+    position: relative;
+    left: 25%;
+    border-radius: 20px;
 }
 
+#faculty{
+    position: relative;
+    left: 26%;
+}
+
+#user-count{
+    margin-right: 30px;
+}
+
+h1{
+    margin: 0;
+    font-size: 26px;
+    margin: 5px 15px;
+}
+
+.header{
+    background-color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    place-content: space-between;
+    color: rgb(60,179,113);
+}
+
+nav{
+   margin-right: 15px;
+}
+
+#home, #logout, #profile {
+    border: 2px solid rgb(60,179,113);
+    color: rgb(60,179,113);
+    background: white;
+    border-radius: 25px;
+    font-size: 16px;
+    width: 100px;
+    padding: 5px 10px;
+    margin-top: 6px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-family: cursive;
+}
+
+#home:hover, #logout:hover, #profile:hover {
+    color: white;
+    background: rgb(60,179,113);
+}
+
+#faculty, #speciality, #graduation-year{
+    margin-top: 30px;
+}

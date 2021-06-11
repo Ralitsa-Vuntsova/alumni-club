@@ -1,6 +1,3 @@
-// useri - fakultet, specialnost, godina na zavurshvane, vsichki useri
-// broi na vsichki postove
-
 function getStatistics(){
     fetch('../../backend/endpoints/statistics.php', {
         method: 'GET'
@@ -15,8 +12,8 @@ function getStatistics(){
             getStatisticsIndicator(response.userCount, `user-count`, "Брой потребители");
             getStatisticsIndicator(response.postCount, `post-count`, "Брой постове");
             getStatisticsPieChart(response.faculty, `faculty`);
-            getStatisticsBarChart(response.speciality, `speciality`);
-            getStatisticsBarChart(response.graduationYear, `graduation-year`);
+            getStatisticsBarChart(response.speciality, `speciality`, "Брой потребители по специалност");
+            getStatisticsBarChart(response.graduationYear, `graduation-year`, "Брой потребители по година на завършване");
         })
         .catch(error => {
             const message = 'Error getting statistics.';
@@ -24,20 +21,23 @@ function getStatistics(){
         });
 }
 
-function getStatisticsBarChart(statistics, element){
+function getStatisticsBarChart(statistics, element, barTitle){
     var data = [
         {
           x: statistics[0],
           y: statistics[1],
           type: 'bar',
         
-        marker: {
-            color: '#3bb371',
-        }
+          marker: {
+              color: '#3bb371',
+          }
         }
       ];
       
-    Plotly.newPlot(element, data);
+      var layout = {
+        title: barTitle
+      }
+    Plotly.newPlot(element, data, layout);
 }
 
 function getStatisticsPieChart(statistics, element){
@@ -49,11 +49,11 @@ function getStatisticsPieChart(statistics, element){
         insidetextorientation: "radial"
       }]
       
-      var layout = [{
-        title: 'Faculty',
-        height: 700,
-        width: 700
-      }]
+      var layout = {
+        title: 'Брой потребители по факултет',
+        height: 600,
+        width: 600
+      }
       
       Plotly.newPlot(element, data, layout)
 }
@@ -73,8 +73,7 @@ function getStatisticsIndicator(statistics, element, text){
       
       var layout = {
         width: 300,
-        height: 400,
-        margin: { t: 0, b: 0, l: 0, r: 0 }
+        height: 300,
       };
       
       Plotly.newPlot(element, data, layout);
