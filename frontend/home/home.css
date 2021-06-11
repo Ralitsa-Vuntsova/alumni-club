@@ -193,7 +193,7 @@ input{
 
 .column-middle{
     float: left;
-    width: 45%;
+    width: 50%;
 }
 
 .columnd-right{
@@ -212,7 +212,23 @@ input{
 }
 
 .prop-1{
-    color: red !important;
+    /* TODO */
+}
+
+.prop-2{
+    /* TODO */
+}
+
+.prop-3{
+    /* TODO */
+}
+
+.prop-4{
+    /* TODO */
+}
+
+.prop-5{
+    /* TODO */
 }
 
  @media screen and (max-width: 600px) {
