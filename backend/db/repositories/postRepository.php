@@ -11,6 +11,10 @@ class PostRepository {
         private $selectPosts;
         private $countPosts;
         private $selectPostUser;
+        private $selectAnswer;
+        private $insertAnswer;
+        private $updateAnswer;
+        private $selectAccepted;
 
         private $database;
 
@@ -74,7 +78,9 @@ class PostRepository {
         public function selectPostUserQuery() {
             $this->database->getConnection()->beginTransaction();
             try {
-                $sql = "SELECT * FROM posts INNER JOIN users ON posts.userId=users.id";
+                $sql = "SELECT occasion, privacy, occasionDate, location, content, speciality, groupUni,
+                 faculty, graduationYear, firstName, lastName, userId, posts.id as postId 
+                 FROM posts INNER JOIN users ON posts.userId=users.id";
                 $this->selectPostUser = $this->database->getConnection()->prepare($sql);
                 $this->selectPostUser->execute();
 
@@ -83,12 +89,86 @@ class PostRepository {
                 {
                     $userPost = new UserPost( $row['occasion'], $row['privacy'],
                         $row['occasionDate'], $row['location'], $row['content'],
-                        $row['speciality'], $row['groupUni'], $row['faculty'], $row['graduationYear']); 
+                        $row['speciality'], $row['groupUni'], $row['faculty'], $row['graduationYear'],
+                        $row['firstName'], $row['lastName'], $row['userId'], $row['postId'], array()); 
                     array_push($postUserArray, $userPost);
                 }
                
-
+                $this->database->getConnection()->commit();
                 return $postUserArray;
+                
+            } catch(PDOException $e) {
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+        
+        public function getAnswer($postId, $userId) {
+            $this->database->getConnection()->beginTransaction();
+            try {
+                $sql = "SELECT isAccepted FROM user_post WHERE userId = :userId AND postId = :postId";
+                $this->selectAnswer = $this->database->getConnection()->prepare($sql);
+                $this->selectAnswer->execute(["userId" => $userId, "postId" => $postId]);
+                $this->database->getConnection()->commit();   
+                return ["success" => true, "data" => $this->selectAnswer];
+            } catch(PDOException $e) {
+                echo $postId;
+                echo $userId;
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function insertAnswer($postId, $isAccepted, $userId) {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "INSERT INTO user_post(userId, postId, isAccepted) VALUES($userId, $postId, $isAccepted)";
+                $this->insertAnswer = $this->database->getConnection()->prepare($sql);
+                $this->insertAnswer->execute();
+                $this->database->getConnection()->commit();   
+                return ["success" => true];
+            } catch (PDOException $e) {
+                echo "exception test";
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function updateAnswer($postId, $isAccepted, $userId) {
+            $this->database->getConnection()->beginTransaction();   
+            try {
+                $sql = "UPDATE user_post SET isAccepted = :isAccepted 
+                        WHERE postId = :postId AND userId = :userId";
+                $this->updateAnswer = $this->database->getConnection()->prepare($sql);
+                $this->updateAnswer->execute(["isAccepted" => $isAccepted, "userId" => $userId, "postId" => $postId]);
+                $this->database->getConnection()->commit();   
+                return ["success" => true];
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function selectAcceptedQuery($postId) {
+            $this->database->getConnection()->beginTransaction();
+            try {
+                $sql = "SELECT users.firstName as firstName, users.lastName as lastName 
+                        FROM users 
+                        JOIN user_post ON users.id = user_post.userId 
+                        JOIN posts ON user_post.postId = posts.id 
+                        WHERE posts.id = $postId AND user_post.isAccepted = true";
+                $this->selectAccepted = $this->database->getConnection()->prepare($sql);
+                $this->selectAccepted->execute();
+
+                $acceptedArray = array();
+                while ($row = $this->selectAccepted->fetch())
+                {
+                    $accepted = $row['firstName'] . " " . $row['lastName'];
+                    array_push($acceptedArray, $accepted);
+                }
+                $this->database->getConnection()->commit();
+                return $acceptedArray;
                 
             } catch(PDOException $e) {
                 $this->database->getConnection()->rollBack();

@@ -14,7 +14,7 @@ INSERT INTO `users`
  (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
  `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`) 
  VALUES (NULL, 'userkatamaya', 'mayaeyaka', 'Maya', 'Qgodova', 'maya-yagodova@abv.bg',
-  'user', 'SI', '2022', '4', 'FHF', NULL, NULL);
+  'user', 'SI', '2022', '4', 'FHF', "25.5892452", "43.0718968");
 
   INSERT INTO `users` 
   (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
@@ -23,12 +23,11 @@ INSERT INTO `users`
    'user', 'Farmaciya', '1999', '1', 'BF', NULL, NULL);
 
 INSERT INTO `posts` 
-(`id`, `privacy`, `userId`, `occasion`, `location`, `content`, `occasionDate`,
- `likes`) VALUES (NULL, 'group', '1', 'Birthday party', 'Zlatograd', 
- 'Heeey, guys. Come to my birthday party and lets have fun! :)))', '2021-06-22 00:10:23', NULL);
+(`id`, `privacy`, `userId`, `occasion`, `location`, `content`, `occasionDate`
+ ) VALUES (NULL, 'group', '1', 'Birthday party', 'Zlatograd', 
+ 'Heeey, guys. Come to my birthday party and lets have fun! :)))', '2021-06-22 00:10:23');
 
  INSERT INTO `posts` 
- (`id`, `privacy`, `userId`, `occasion`, `location`, `content`, `occasionDate`,
-  `likes`) VALUES (NULL, 'faculty', NULL, 'Izlizanka', 'Studentski park', 
+ (`id`, `privacy`, `userId`, `occasion`, `location`, `content`, `occasionDate`) VALUES (NULL, 'faculty', '1', 'Izlizanka', 'Studentski park', 
   'Just a casual gathering to play some games and talk about everything. 
-  If you are looking for some fun, you are welcome to come <3', '2021-06-24 19:00:00', NULL);
+  If you are looking for some fun, you are welcome to come <3', '2021-06-24 19:00:00');

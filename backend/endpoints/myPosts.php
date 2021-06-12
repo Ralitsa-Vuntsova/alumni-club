@@ -6,14 +6,13 @@
     $postService = new PostService();
 
     function getPosts($postService) {
-        return $postService->filterPosts();
+        return $postService->getMyPosts();
     }
 
     echo json_encode([
         "success" => true,
         "message" => "List of all posts.",
-        "value" => getPosts($postService)
-        // "accepted" => $postService->getAccepted()
+        "value" => getPosts($postService), 
         // "role" => $_SESSION['role']
     ]);
 ?>

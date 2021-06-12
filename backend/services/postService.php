@@ -31,10 +31,15 @@
            
             $result = array();
             foreach ($allUserPosts as $post) {
-                if($post->privacy == "faculty" && $_SESSION['faculty'] == $post->faculty){
+                $coming = $this->postRepository->selectAcceptedQuery($post->postId);
+                $post->coming = $coming;
+                if($post->userId == $_SESSION['userId']) {
+                    continue;
+                }
+                if($post->privacy == "faculty" && $_SESSION['faculty'] == $post->faculty) {
                     array_push($result, $post);
                 }
-                else if($post->privacy == "speciality" && $_SESSION['speciality'] == $post->speciality){
+                else if($post->privacy == "speciality" && $_SESSION['speciality'] == $post->speciality) {
                     array_push($result, $post);
                 }
                 else if($post->privacy == "group"
@@ -44,7 +49,7 @@
                                     && $_SESSION['groupUni'] == $post->groupUni){
                     array_push($result, $post);
                 }
-                else if($post->privacy == "all"){
+                else if($post->privacy == "all") {
                     array_push($result, $post); // privacy: all users
                 }
             }
@@ -52,5 +57,40 @@
             return $result;
         }
 
+        public function getMyPosts()
+        {
+            $allUserPosts = $this->postRepository->selectPostUserQuery();
+           
+            $result = array();
+            foreach ($allUserPosts as $post) {
+                if($post->userId == $_SESSION['userId']) {
+                    array_push($result, $post);
+                }
+            }
+
+            return $result;
+        }
+
+        public function answerPost($postId, $isAccepted, $userId) {
+            $result = $this->postRepository->getAnswer($postId, $userId)["data"]->fetch(PDO::FETCH_ASSOC);
+            
+            
+            if(empty($result)) {
+                $this->postRepository->insertAnswer($postId, $isAccepted, $userId);
+            } else {
+                $this->postRepository->updateAnswer($postId, $isAccepted, $userId);
+            } 
+        }
+
+        // public function getAccepted($postId) {
+        //     $result = $this->postRepository->getAnswer($postId, $userId)["data"]->fetch(PDO::FETCH_ASSOC);
+            
+            
+        //     if(empty($result)) {
+        //         $this->postRepository->insertAnswer($postId, $isAccepted, $userId);
+        //     } else {
+        //         $this->postRepository->updateAnswer($postId, $isAccepted, $userId);
+        //     } 
+        // }
     }
 ?>

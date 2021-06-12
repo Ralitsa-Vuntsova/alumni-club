@@ -58,8 +58,13 @@ CREATE TABLE posts (
   location        VARCHAR(255) NOT NULL,
   content         VARCHAR(255) NOT NULL,
   occasionDate    DATETIME COMMENT 'event time' NOT NULL,
-  createTime      DATETIME DEFAULT NOW() COMMENT 'create time', -- NOT NULL,
-  likes           INT -- coming to the event
+  createTime      DATETIME DEFAULT NOW() COMMENT 'create time' -- NOT NULL,
+) default charset utf8 comment '';
+
+CREATE TABLE user_post (
+  userId          INT NOT NULL,
+  postId          INT NOT NULL,
+  isAccepted      BOOLEAN
 ) default charset utf8 comment '';
 
 CREATE TABLE comments (
@@ -76,6 +81,16 @@ CREATE TABLE comments (
 --   userId          INT NOT NULL,
 --   expires         DATETIME
 -- ) default charset utf8 comment '';
+
+ALTER TABLE
+  user_post
+ADD
+  CONSTRAINT FK_Contact_User_Post_1 FOREIGN KEY (userId) REFERENCES users(id);
+
+ALTER TABLE
+  user_post
+ADD
+  CONSTRAINT FK_Contact_User_Post_2 FOREIGN KEY (postId) REFERENCES posts(id);
 
 ALTER TABLE
   contacts

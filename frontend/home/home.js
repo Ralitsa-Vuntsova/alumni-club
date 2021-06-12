@@ -79,6 +79,28 @@ async function getPosts() {
         });
 };
 
+async function getMyPosts() {
+    fetch("../../backend/endpoints/myPosts.php", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error loading posts.");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            posts = data.value;
+            appendMyPosts(posts);
+        })
+        .catch((error) => {
+            console.error("Error when loading posts: " + error);
+        });
+};
+
 async function createPost(formData) {
     const data = new FormData();
 
@@ -109,8 +131,93 @@ async function createPost(formData) {
         });
 };
 
+
+function accept(postId) {
+    const formData = {
+        postId: postId,
+        isAccepted: 1
+    };
+
+    answerPost(formData);
+}
+
+function decline(postId) {
+    const formData = {
+        postId: postId,
+        isAccepted: 0
+    };
+
+    answerPost(formData);
+}
+
+
+async function answerPost(formData) {
+    fetch('../../backend/endpoints/answerPost.php', {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(formData),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Error answering post.');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success === true) {
+                console.log("The post is answered successfully.");
+            } else {
+                console.log('The post is NOT answered successfully.');
+            }
+        })
+        .catch(error => {
+            const message = 'Error when answering a post.';
+            console.log(error);
+            console.error(message);
+        });
+};
+
 function appendPosts(posts) {
     var postSection = document.getElementById('list-of-invitations');
+
+    Object.values(posts).forEach(function (data) {
+        const { postId, ...res } = data; 
+        var article = document.createElement('article');
+       // console.log(data.postId);
+        article.setAttribute("id", data.postId);
+
+        var counter = 1;
+        Object.values(res).forEach(function (property) {
+            var paragraph = document.createElement('p');
+            paragraph.innerHTML = property;
+          //  console.log(property);
+            article.appendChild(paragraph);
+
+            paragraph.setAttribute('class', `prop-${counter++}`);
+        });
+
+        var buttonAccept = document.createElement('button');
+        buttonAccept.innerHTML = "Приемам";
+        buttonAccept.setAttribute("id", "accept-button");
+        buttonAccept.setAttribute("type", "submit");
+        buttonAccept.setAttribute("onclick", `accept(${data.postId})`);
+        article.appendChild(buttonAccept);
+
+        var buttonDecline = document.createElement('button');
+        buttonDecline.innerHTML = "Отказвам";
+        buttonDecline.setAttribute("id", "decline-button");
+        buttonDecline.setAttribute("type", "submit");
+        buttonDecline.setAttribute("onclick", `decline(${data.postId})`);
+        article.appendChild(buttonDecline);
+
+        postSection.appendChild(article);
+    });
+}
+
+function appendMyPosts(posts) {
+    var postSection = document.getElementById('list-of-my-invitations');
 
     Object.values(posts).forEach(function (data) {
         const { id, ...res } = data; 
@@ -125,6 +232,10 @@ function appendPosts(posts) {
 
             paragraph.setAttribute('class', `prop-${counter++}`);
         });
+
+        var buttonDelete = document.createElement('button');
+        buttonDelete.innerHTML = "Изтрий";
+        article.appendChild(buttonDelete);
         postSection.appendChild(article);
     });
 }
@@ -259,3 +370,4 @@ function redirect(path) {
 }
 
 getPosts();
+getMyPosts();
