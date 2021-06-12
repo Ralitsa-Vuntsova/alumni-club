@@ -82,15 +82,10 @@
             } 
         }
 
-        // public function getAccepted($postId) {
-        //     $result = $this->postRepository->getAnswer($postId, $userId)["data"]->fetch(PDO::FETCH_ASSOC);
-            
-            
-        //     if(empty($result)) {
-        //         $this->postRepository->insertAnswer($postId, $isAccepted, $userId);
-        //     } else {
-        //         $this->postRepository->updateAnswer($postId, $isAccepted, $userId);
-        //     } 
-        // }
+        public function deletePost($postId) {
+        // first delete the post entries in user_post, then the post itself
+            $this->postRepository->deleteAnsweredUsersPostQuery($postId);
+            $this->postRepository->deletePostQuery($postId);
+        }
     }
 ?>

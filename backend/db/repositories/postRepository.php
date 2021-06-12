@@ -15,6 +15,8 @@ class PostRepository {
         private $insertAnswer;
         private $updateAnswer;
         private $selectAccepted;
+        private $deletePost;
+        private $deleteAnsweredUsersPost;
 
         private $database;
 
@@ -112,8 +114,6 @@ class PostRepository {
                 $this->database->getConnection()->commit();   
                 return ["success" => true, "data" => $this->selectAnswer];
             } catch(PDOException $e) {
-                echo $postId;
-                echo $userId;
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
@@ -128,7 +128,6 @@ class PostRepository {
                 $this->database->getConnection()->commit();   
                 return ["success" => true];
             } catch (PDOException $e) {
-                echo "exception test";
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
@@ -171,6 +170,42 @@ class PostRepository {
                 return $acceptedArray;
                 
             } catch(PDOException $e) {
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deletePostQuery($postId)
+        {
+            $this->database->getConnection()->beginTransaction();
+            try {
+                $sql = "DELETE FROM posts 
+                        WHERE posts.id = $postId";
+                $this->deletePost = $this->database->getConnection()->prepare($sql);
+                $this->deletePost->execute();
+
+                $this->database->getConnection()->commit();
+                return ["success" => true];
+            } catch (PDOException $e) {
+            echo $e->getMessage();
+                $this->database->getConnection()->rollBack();
+                return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+            }
+        }
+
+        public function deleteAnsweredUsersPostQuery($postId)
+        {
+            $this->database->getConnection()->beginTransaction();
+            try {
+                $sql = "DELETE FROM user_post
+                            WHERE postId = $postId";
+                $this->deleteAnsweredUsersPost = $this->database->getConnection()->prepare($sql);
+                $this->deleteAnsweredUsersPost->execute();
+
+                $this->database->getConnection()->commit();
+                return ["success" => true];
+            } catch (PDOException $e) {
+                echo $e->getMessage();
                 $this->database->getConnection()->rollBack();
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
