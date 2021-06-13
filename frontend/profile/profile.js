@@ -4,6 +4,12 @@ homeBtn.addEventListener('click', () => {
   redirect('../home/home.html');
 })
 
+const statisticsBtn = document.getElementById('statistics');
+
+statisticsBtn.addEventListener('click', () => {
+    redirect("../statistics/statistics.html");
+})
+
 const logoutBtn = document.getElementById('logout');
 
 logoutBtn.addEventListener('click', () => {
