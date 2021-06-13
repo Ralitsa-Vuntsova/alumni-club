@@ -87,5 +87,15 @@
             $this->postRepository->deleteAnsweredUsersPostQuery($postId);
             $this->postRepository->deletePostQuery($postId);
         }
+
+        public function getIfUserAccepted($postId) {
+            $result =  $this->postRepository->getAnswer($postId, $_SESSION['userId'])["data"]->fetch(PDO::FETCH_ASSOC);
+
+            if (empty($result)) {
+                return "";
+            } else {
+               return $result;
+            } 
+        }
     }
 ?>

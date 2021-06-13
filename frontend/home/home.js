@@ -131,6 +131,11 @@ async function createPost(formData) {
         });
 };
 
+function removeElement(elementId) {
+    // Removes an element from the document.
+    var element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
+}
 
 function accept(postId) {
     const formData = {
@@ -139,6 +144,10 @@ function accept(postId) {
     };
 
     answerPost(formData);
+    //remove accept
+    removeElement(`accept-button-${postId}`);
+    // show decline
+    // showDeclineButton(postId);
 }
 
 function decline(postId) {
@@ -148,6 +157,10 @@ function decline(postId) {
     };
 
     answerPost(formData);
+    // remove decline 
+    removeElement(`decline-button-${postId}`);
+    // show accept
+    // showAcceptButton(postId);
 }
 
 async function deletePost(postId) {
@@ -171,6 +184,7 @@ async function deletePost(postId) {
         .then((data) => {
             if (data.success === true) {
                 console.log("The post is deleted successfully.");
+                window.location.reload();
             } else {
                 console.log("The post is NOT deleted successfully.");
             }
@@ -211,42 +225,128 @@ async function answerPost(formData) {
         });
 };
 
+
+async function getIfUserAccepted(formData) {
+
+    let answer;
+
+    fetch(`../../backend/endpoints/getIfUserAccepted.php?postId=${formData.postId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            }
+            // body: JSON.stringify(formData),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error getting if user accepted.");
+            }
+            // console.log(response.clone().json())
+            return response.json();
+        })
+        .then((data) => {
+            if (data.success === true) {
+                console.log("Successfully got if user accepted.");
+                // console.log(data.value);
+                answer = data.value;
+
+            } else {
+                console.log("Error getting if user accepted.");
+            }
+        })
+        .catch((error) => {
+            const message = "Error getting if user accepted.";
+            console.log(error);
+            console.error(message);
+        });
+
+    return answer;
+};
+
+function showAcceptButton(postId) {
+    var buttonAccept = document.createElement("button");
+    buttonAccept.innerHTML = "Приемам";
+    buttonAccept.setAttribute("id", `accept-button-${postId}`);
+    buttonAccept.setAttribute("type", "submit");
+
+    var article = document.getElementById(postId);
+
+    buttonAccept.setAttribute("onclick", `accept(${postId})`);
+    article.appendChild(buttonAccept);
+}
+
+function showDeclineButton(postId, article) {
+    var buttonDecline = document.createElement("button");
+    buttonDecline.innerHTML = "Отказвам";
+    buttonDecline.setAttribute("id", `decline-button-${postId}`);
+    buttonDecline.setAttribute("type", "submit");
+
+    var article = document.getElementById(postId);
+
+    buttonDecline.setAttribute("onclick", `decline(${postId})`);
+    article.appendChild(buttonDecline);
+}
+
 function appendPosts(posts) {
     var postSection = document.getElementById('list-of-invitations');
 
     Object.values(posts).forEach(function(data) {
         const { postId, ...res } = data;
-        var article = document.createElement('article');
+        var article = document.createElement("article");
         // console.log(data.postId);
         article.setAttribute("id", data.postId);
 
         var counter = 1;
         Object.values(res).forEach(function(property) {
-            var paragraph = document.createElement('p');
+            var paragraph = document.createElement("p");
             paragraph.innerHTML = property;
             //  console.log(property);
             article.appendChild(paragraph);
 
-            paragraph.setAttribute('class', `prop-${counter++}`);
+            paragraph.setAttribute("class", `prop-${counter++}`);
         });
 
-        var buttonAccept = document.createElement('button');
-        buttonAccept.innerHTML = "Приемам";
-        buttonAccept.setAttribute("id", "accept-button");
-        buttonAccept.setAttribute("type", "submit");
-        buttonAccept.setAttribute("onclick", `accept(${data.postId})`);
-        article.appendChild(buttonAccept);
-
-        var buttonDecline = document.createElement('button');
-        buttonDecline.innerHTML = "Отказвам";
-        buttonDecline.setAttribute("id", "decline-button");
-        buttonDecline.setAttribute("type", "submit");
-        buttonDecline.setAttribute("onclick", `decline(${data.postId})`);
-        article.appendChild(buttonDecline);
-
         postSection.appendChild(article);
+
+        const formData = {
+            postId: data.postId,
+        };
+
+        const answer = getIfUserAccepted(formData);
+
+        console.log("the answer is: " + answer.isAccepted);
+
+        // Promise.resolve(answer).then(function(value) {
+        // console.log("the value is: " + value);
+        if (answer.isAccepted === false) {
+            showAcceptButton(data.postId);
+        } else if (!answer.isAccepted) {
+            showAcceptButton(data.postId);
+            showDeclineButton(data.postId);
+        } else {
+            showDeclineButton(data.postId);
+        }
+        // });
+
+        // if (answer === false) {
+        //     showAcceptButton(data.postId);
+        // } else if (!answer) {
+        //     showAcceptButton(data.postId);
+        //     showDeclineButton(data.postId);
+        // } else {
+        //     showDeclineButton(data.postId);
+        // }
+
+        // if (isAccepted === false) {
+        // } else if (!isAccepted) { // falsy, not answered yet
+        //     showAcceptButton(data.postId);
+        //     showDeclineButton(data.postId);
+        // } else { // true
+        // }
     });
 }
+
 
 function appendMyPosts(posts) {
     var postSection = document.getElementById('list-of-my-invitations');
