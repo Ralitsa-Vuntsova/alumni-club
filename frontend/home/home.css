@@ -1,4 +1,4 @@
-body{
+ body{
     margin: 0;
     padding: 0;
     background-color: rgb(220,247,220);
@@ -24,13 +24,13 @@ nav{
    margin-right:15px;
 }
 
-#profile, #logout, #statistics {
+#profile, #logout, #statistics, #users {
     border: 2px solid rgb(60,179,113);
     color: rgb(60,179,113);
     background: white;
     border-radius: 25px;
     font-size: 16px;
-    width: 120px;
+    width: 125px;
     padding: 5px 10px;
     margin-top: 6px;
     margin-left: 5px;
@@ -38,7 +38,7 @@ nav{
     font-family: cursive;
 }
 
-#profile:hover, #logout:hover, #statistics:hover {
+#profile:hover, #logout:hover, #statistics:hover, #users:hover {
     color: white;
     background: rgb(60,179,113);
 }
@@ -211,27 +211,13 @@ input{
     color: rgb(43, 105, 71) !important;
 }
 
+/*
 .prop-1{
-    /* TODO */
+    
 }
+*/
 
-.prop-2{
-    /* TODO */
-}
-
-.prop-3{
-    /* TODO */
-}
-
-.prop-4{
-    /* TODO */
-}
-
-.prop-5{
-    /* TODO */
-}
-
- @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .column {
       width: 100%;
     }
