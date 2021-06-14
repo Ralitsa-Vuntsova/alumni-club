@@ -10,6 +10,12 @@ statisticsBtn.addEventListener('click', () => {
     redirect("../statistics/statistics.html");
 })
 
+const usersBtn = document.getElementById('users');
+
+usersBtn.addEventListener('click', () => {
+    redirect("../users/users.html");
+})
+
 const logoutBtn = document.getElementById('logout');
 
 logoutBtn.addEventListener('click', () => {

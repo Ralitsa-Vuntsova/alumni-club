@@ -10,6 +10,12 @@ statisticsBtn.addEventListener('click', () => {
     redirect("../statistics/statistics.html");
 })
 
+const usersBtn = document.getElementById('users');
+
+usersBtn.addEventListener('click', () => {
+    redirect("../users/users.html");
+})
+
 function logout() {
     fetch('../../backend/endpoints/logout.php', {
             method: 'GET'
@@ -131,12 +137,6 @@ async function createPost(formData) {
         });
 };
 
-function removeElement(elementId) {
-    // Removes an element from the document.
-    var element = document.getElementById(elementId);
-    element.parentNode.removeChild(element);
-}
-
 function accept(postId) {
     const formData = {
         postId: postId,
@@ -144,10 +144,6 @@ function accept(postId) {
     };
 
     answerPost(formData);
-    //remove accept
-    removeElement(`accept-button-${postId}`);
-    // show decline
-    // showDeclineButton(postId);
 }
 
 function decline(postId) {
@@ -157,10 +153,6 @@ function decline(postId) {
     };
 
     answerPost(formData);
-    // remove decline 
-    removeElement(`decline-button-${postId}`);
-    // show accept
-    // showAcceptButton(postId);
 }
 
 async function deletePost(postId) {
@@ -227,10 +219,9 @@ async function answerPost(formData) {
 
 
 async function getIfUserAccepted(formData) {
-
     let answer;
 
-    fetch(`../../backend/endpoints/getIfUserAccepted.php?postId=${formData.postId}`, {
+    return fetch(`../../backend/endpoints/getIfUserAccepted.php?postId=${formData.postId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -248,9 +239,8 @@ async function getIfUserAccepted(formData) {
         .then((data) => {
             if (data.success === true) {
                 console.log("Successfully got if user accepted.");
-                // console.log(data.value);
                 answer = data.value;
-
+                return answer;
             } else {
                 console.log("Error getting if user accepted.");
             }
@@ -260,8 +250,6 @@ async function getIfUserAccepted(formData) {
             console.log(error);
             console.error(message);
         });
-
-    return answer;
 };
 
 function showAcceptButton(postId) {
@@ -315,38 +303,20 @@ function appendPosts(posts) {
 
         const answer = getIfUserAccepted(formData);
 
-        console.log("the answer is: " + answer.isAccepted);
+        Promise.resolve(answer).then(function(value) {
+            console.log("the value is: " + value.isAccepted);
 
-        // Promise.resolve(answer).then(function(value) {
-        // console.log("the value is: " + value);
-        if (answer.isAccepted === false) {
-            showAcceptButton(data.postId);
-        } else if (!answer.isAccepted) {
-            showAcceptButton(data.postId);
-            showDeclineButton(data.postId);
-        } else {
-            showDeclineButton(data.postId);
-        }
-        // });
-
-        // if (answer === false) {
-        //     showAcceptButton(data.postId);
-        // } else if (!answer) {
-        //     showAcceptButton(data.postId);
-        //     showDeclineButton(data.postId);
-        // } else {
-        //     showDeclineButton(data.postId);
-        // }
-
-        // if (isAccepted === false) {
-        // } else if (!isAccepted) { // falsy, not answered yet
-        //     showAcceptButton(data.postId);
-        //     showDeclineButton(data.postId);
-        // } else { // true
-        // }
+            if (value.isAccepted == 0) {
+                showAcceptButton(data.postId);
+            } else if (value.isAccepted == 1) {
+                showDeclineButton(data.postId);
+            } else {
+                showAcceptButton(data.postId);
+                showDeclineButton(data.postId);
+            }
+        });
     });
 }
-
 
 function appendMyPosts(posts) {
     var postSection = document.getElementById('list-of-my-invitations');
