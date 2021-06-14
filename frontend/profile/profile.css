@@ -136,13 +136,10 @@ input{
 
     #home, #logout, #users, #statistics{
         font-size: 14px;
+        padding: 0px;
     }
 
     nav{
         margin-right: 0px;
-    }
-
-    #home, #logout, #users, #statistics{
-        padding: 0px;
     }
 }

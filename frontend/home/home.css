@@ -237,8 +237,35 @@ input{
     color: rgb(43, 105, 71) !important;
 }
 
+
+@media screen and (max-width: 900px) {
+    #profile, #logout, #users, #statistics{
+        border: none;
+        width: 105px;
+        margin-left: -5px;
+    }
+
+}
+
 @media screen and (max-width: 600px) {
     .column {
       width: 100%;
+    }
+}
+
+@media screen and (max-width: 435px) {
+    nav{
+        margin-right: 0px;
+    }
+}
+
+@media screen and (max-width: 335px) {
+    #profile, #logout, #users, #statistics{
+        font-size: 14px;
+        padding: 0px;
+    }
+
+    nav{
+        margin-right: 0px;
     }
 }
