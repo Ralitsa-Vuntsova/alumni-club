@@ -10,6 +10,11 @@ homeBtn.addEventListener('click', () => {
   redirect('../home/home.html');
 })
 
+const usersBtn = document.getElementById('users');
+
+usersBtn.addEventListener('click', () => {
+    redirect("../users/users.html");
+})
 const profileBtn = document.getElementById('profile');
 
 profileBtn.addEventListener('click', () => {

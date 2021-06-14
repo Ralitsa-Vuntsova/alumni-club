@@ -13,7 +13,6 @@
         "success" => true,
         "message" => "List of all posts.",
         "value" => getPosts($postService)
-        // "accepted" => $postService->getAccepted()
         // "role" => $_SESSION['role']
     ]);
 ?>

@@ -75,11 +75,11 @@ input{
     color: white;
 }
 
-#accept-button, #decline-button{
-    display: inline-block;
+.accept-button, .decline-button{
+    display: block;
     position: relative;
-    left: 15%;
-    margin-left: 10px;
+    left: 50%; 
+    transform: translateX(-50%);
     margin-top: 20px;
     margin-bottom: 10px;
     background: rgb(60,179,113);
@@ -93,7 +93,7 @@ input{
     color: white;
 }
 
-#submit:hover, #delete-button:hover, #accept-button:hover, #decline-button:hover{
+#submit:hover, #delete-button:hover, .accept-button:hover, .decline-button:hover{
     font-weight: bold;
 }
 
@@ -131,22 +131,25 @@ input{
 
 .list-of-invitations{
     display: block;
-    margin-left: 30px;
 }
 
-.list-of-invitations header{
+.header-paragraph{
    font-size: 26px;
    color: rgb(60,179,113);
-   margin-left: -15px;
 }
 
 .list-of-invitations article{
     background: white;
-    margin-bottom: 20px;
     width: 35%;
     border-radius: 15px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 20px;
+    margin: 50px auto;
+}
+
+.list-of-invitations article:hover{
+    box-shadow: 15px 15px 30px rgb(165, 214, 165),
+                -15px -15px 30px rgb(165, 214, 165);
+    transition: all 500ms ease;
 }
 
 .list-of-invitations p{
@@ -154,6 +157,12 @@ input{
     padding-left: 30px;
     padding-right: 30px;
     color: rgb(60,179,113);
+    text-align: center;
+}
+
+.prop-1{
+    border-bottom: 1px solid rgb(60,179,113);
+    padding-bottom: 5px;
 }
 
 #find-alumnis{
@@ -189,11 +198,6 @@ input{
 
 #nearby-alumnis{
     margin-top: 30px;
-}
-
-#nearby-alumnis header{
-    font-size: 26px;
-    color: rgb(60,179,113);
 }
 
 #nearby-alumnis article{
@@ -233,14 +237,37 @@ input{
     color: rgb(43, 105, 71) !important;
 }
 
-/*
-.prop-1{
-    
+@media screen and (max-width: 900px) {
+    #profile, #logout, #users, #statistics{
+        border: none;
+        width: 105px;
+        margin-left: -5px;
+    }
 }
-*/
 
-@media screen and (max-width: 600px) {
-    .column {
-      width: 100%;
+@media screen and (max-width: 435px) {
+    nav{
+        margin-right: 0px;
+    }
+
+    #delete-button, .accept-button, .decline-button{
+        width: 80px;
+    }
+}
+
+@media screen and (max-width: 335px) {
+    #profile, #logout, #users, #statistics{
+        font-size: 14px;
+        padding: 0px;
+    }
+
+    nav{
+        margin-right: 0px;
+    }
+
+    .list-of-invitations p{
+        margin-left: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 }
