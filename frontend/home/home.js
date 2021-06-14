@@ -257,6 +257,7 @@ function showAcceptButton(postId) {
     buttonAccept.innerHTML = "Приемам";
     buttonAccept.setAttribute("id", `accept-button-${postId}`);
     buttonAccept.setAttribute("type", "submit");
+    buttonAccept.setAttribute("class", "accept-button");
 
     var article = document.getElementById(postId);
 
@@ -269,6 +270,7 @@ function showDeclineButton(postId, article) {
     buttonDecline.innerHTML = "Отказвам";
     buttonDecline.setAttribute("id", `decline-button-${postId}`);
     buttonDecline.setAttribute("type", "submit");
+    buttonDecline.setAttribute("class", "decline-button");
 
     var article = document.getElementById(postId);
 
@@ -280,16 +282,14 @@ function appendPosts(posts) {
     var postSection = document.getElementById('list-of-invitations');
 
     Object.values(posts).forEach(function(data) {
-        const { postId, ...res } = data;
+        const { privacy, speciality, groupUni, faculty, graduationYear, userId, postId, ...res } = data;
         var article = document.createElement("article");
-        // console.log(data.postId);
         article.setAttribute("id", data.postId);
 
         var counter = 1;
         Object.values(res).forEach(function(property) {
             var paragraph = document.createElement("p");
             paragraph.innerHTML = property;
-            //  console.log(property);
             article.appendChild(paragraph);
 
             paragraph.setAttribute("class", `prop-${counter++}`);
@@ -322,8 +322,9 @@ function appendMyPosts(posts) {
     var postSection = document.getElementById('list-of-my-invitations');
 
     Object.values(posts).forEach(function(data) {
-        const { id, ...res } = data;
+        const { id, speciality, groupUni, faculty, graduationYear, firstName, lastName, userId, postId, ...res } = data;
         var article = document.createElement('article');
+        article.setAttribute("id", data.postId);
 
         var counter = 1;
         Object.values(res).forEach(function(property) {
