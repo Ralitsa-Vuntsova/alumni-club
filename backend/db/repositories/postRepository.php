@@ -83,7 +83,8 @@ class PostRepository {
             try {
                 $sql = "SELECT occasion, privacy, occasionDate, location, content, speciality, groupUni,
                  faculty, graduationYear, firstName, lastName, userId, posts.id as postId 
-                 FROM posts INNER JOIN users ON posts.userId=users.id";
+                 FROM posts INNER JOIN users ON posts.userId=users.id 
+                 WHERE occasionDate >= CURDATE()";
                 $this->selectPostUser = $this->database->getConnection()->prepare($sql);
                 $this->selectPostUser->execute();
 
@@ -211,25 +212,5 @@ class PostRepository {
                 return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
             }
         }
-
-    // public function selectIfUserAcceptedQuery($postId)
-    // {
-    //     $this->database->getConnection()->beginTransaction();
-    //     try {
-    //         $sql = "SELECT user_post.isAccepted as isAccepted
-    //                     FROM users 
-    //                     JOIN user_post ON users.id = user_post.userId 
-    //                     JOIN posts ON user_post.postId = posts.id 
-    //                     WHERE posts.id = $postId AND users.id = '{$_SESSION['userId']}'";
-    //         $this->selectIfUserAccepted = $this->database->getConnection()->prepare($sql);
-    //         $this->selectIfUserAccepted->execute();
-
-    //         $this->database->getConnection()->commit();
-    //         return ["success" => true, "data" => $this->selectIfUserAccepted];
-    //     } catch (PDOException $e) {
-    //         $this->database->getConnection()->rollBack();
-    //         return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-    //     }
-    // }
     }
 ?>

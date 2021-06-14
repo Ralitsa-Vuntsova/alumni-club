@@ -1,32 +1,44 @@
 INSERT INTO `users` 
 (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`,
 `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`) 
-VALUES (NULL, 'ivan_ivanov', 'Ivan_ivanov123', 'Ivan', 'Ivanov', 'ivan_ivanov@abv.bg',
+VALUES (NULL, 'ivan_ivanov', '$2y$10$Obktks5GamEVE1WIC7U2hOcyDKCzhn1mKAGTOgYiGY02iG68Yrsvy', 'Ivan', 'Ivanov', 'ivan_ivanov@abv.bg',
 'user', 'software engineering', '2022', '4', 'FMI', '23.2804297', '42.6592600');
+-- password: Ivan_ivanov123
 
 INSERT INTO `users` 
 (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`,
 `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`) 
-VALUES (NULL, 'petur_petrov', 'Petur_petrov789', 'Petur', 'Petrov', 'petur-petrov@abv.bg', 
+VALUES (NULL, 'petur_petrov', '$2y$10$koghoBgNWdm9/QzByZLRwephZoT861BxzMHVp8tuDUsMWX/SGIUe6', 'Petur', 'Petrov', 'petur-petrov@abv.bg', 
 'user', 'software engineering', '2022', '4', 'FMI', '23.3177088', '42.6835968');
+-- password: Petur_petrov789
 
 INSERT INTO `users` 
 (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
 `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`) 
-VALUES (NULL, 'kirilKirilov', 'kirilKirilov_456', 'Kiril', 'Kirilov', 'kirilKirilov@gmail.com',
+VALUES (NULL, 'kirilKirilov', '$2y$10$3RSbMFaGiuzJbHAlhFC3o.MCawSNWF2.Hq3we5VHLhm4EtG6wHHXe', 'Kiril', 'Kirilov', 'kirilKirilov@gmail.com',
 'user', 'pharmacy', '2023', '3', 'FHF', "23.3258777", "42.6656911");
+-- password: kirilKirilov_456
 
 INSERT INTO `users` 
 (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
 `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`)
-VALUES (NULL, 'tsvetelina_1999', 'tsvetelinaTs99', 'Tsvetelina', 'Tsvetanova', 'tsvetelina_1999@gmail.com', 
+VALUES (NULL, 'tsvetelina_1999', '$2y$10$/i9bZ0Ymq7dfEld4e5DWfuegtOGwIBqyuq0wDHRzdY.BLwKVTN2qW', 'Tsvetelina', 'Tsvetanova', 'tsvetelina_1999@gmail.com', 
 'user', 'pharmacy', '2024', '1', 'FHF', "23.7639718", "42.8964548");
+-- password: tsvetelinaTs99
 
 INSERT INTO `users` 
 (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
 `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`)
-VALUES (NULL, 'pavkata', 'PavelPavlov2000', 'Pavel', 'Pavlov', 'pavkata@gmail.com', 
+VALUES (NULL, 'pavkata', '$2y$10$YmtYW5v/0bFNxfq/xWPEn.2szN1DVYZHabjPCFPCVHRZv361Evbza', 'Pavel', 'Pavlov', 'pavkata@gmail.com', 
 'user', 'medicine', '2025', '2', 'FHF', NULL, NULL);
+-- password: PavelPavlov2000
+
+INSERT INTO `users` 
+(`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
+`speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`)
+VALUES (NULL, 'admin', '$2y$10$cwP6SruXyOFMYqWltTXQbO5x3i2Vtqby9TXG9UcuMRZ4whgl9stKW', 'Georgi', 'Georgiev', 'georgiew@gmail.com', 
+'admin', 'software engineering', '2024', '2', 'FMI', NULL, NULL);
+-- password: admin
 
 INSERT INTO `posts` 
 (`id`, `privacy`, `userId`, `occasion`, `location`, `content`, `occasionDate`)

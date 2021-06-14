@@ -1,3 +1,33 @@
+const isEmpty = value => value === '' ? false : true;
+
+const showError = (formField, message) => {
+    // get the form-field element
+    //const formField = input.parentElement;
+    // add the error class
+    formField.classList.remove('success');
+    formField.classList.add('error');
+
+    // show the error message
+    const error = formField.querySelector('small');
+    error.textContent = message;
+}
+
+const showSuccess = (formField, message) => {
+    // get the form-field element
+    //const formField = input.parentElement;
+
+    // remove the error class
+    formField.classList.remove('error');
+    formField.classList.add('success');
+
+    // hide the error message
+    const success = formField.querySelector('small');
+    success.textContent = message;
+}
+
+const isBetween = (length, min, max) => length < min || length > max ? false : true;
+
+
 const logoutBtn = document.getElementById('logout');
 
 logoutBtn.addEventListener('click', () => {
@@ -18,8 +48,8 @@ usersBtn.addEventListener('click', () => {
 
 function logout() {
     fetch('../../backend/endpoints/logout.php', {
-            method: 'GET'
-        })
+        method: 'GET'
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error logout user.');
@@ -41,17 +71,26 @@ const profileBtn = document.getElementById('profile');
 
 profileBtn.addEventListener('click', () => {
     redirect('../profile/profile.html');
-})
+});
 
 const submitPostBtn = document.getElementById('submit');
 
-submitPostBtn.addEventListener('click', () => {
+submitPostBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+
     const occasion = document.getElementById('occasion').value;
     const privacy = document.getElementById('privacy').value;
     const occasionDate = document.getElementById('occasionDate').value;
     const location = document.getElementById('location').value;
     const content = document.getElementById('content').value;
+    const section = document.getElementById('create-invitation-form');
 
+    if (!isBetween(occasion, 1, 50) || !occasionDate ||
+        !isBetween(location, 1, 50) || !isBetween(content, 1, 50)) {
+        showError(section, "Необходимо е да попълните всички полета.");
+        return;
+    }
+    showSuccess(section, "Поканата е създадена успешно.");
     const formData = {
         occasion: occasion,
         privacy: privacy,
@@ -61,15 +100,16 @@ submitPostBtn.addEventListener('click', () => {
     };
 
     createPost(formData);
-})
+    window.location.reload();
+});
 
 async function getPosts() {
     fetch("../../backend/endpoints/getAllPostsEndpoint.php", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-        })
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error loading posts.");
@@ -83,15 +123,15 @@ async function getPosts() {
         .catch((error) => {
             console.error("Error when loading posts: " + error);
         });
-};
+}
 
 async function getMyPosts() {
     fetch("../../backend/endpoints/myPosts.php", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-        })
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error loading posts.");
@@ -105,18 +145,16 @@ async function getMyPosts() {
         .catch((error) => {
             console.error("Error when loading posts: " + error);
         });
-};
+}
 
 async function createPost(formData) {
-    const data = new FormData();
-
     fetch('../../backend/endpoints/createPostEndpoint.php', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(formData),
-        })
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(formData),
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error creating post.');
@@ -135,7 +173,7 @@ async function createPost(formData) {
             console.log(error);
             console.error(message);
         });
-};
+}
 
 function accept(postId) {
     const formData = {
@@ -161,12 +199,12 @@ async function deletePost(postId) {
     };
 
     fetch("../../backend/endpoints/deletePost.php", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(formData)
-        })
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(formData)
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error deleting post.");
@@ -191,12 +229,12 @@ async function deletePost(postId) {
 
 async function answerPost(formData) {
     fetch('../../backend/endpoints/answerPost.php', {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(formData),
-        })
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(formData),
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error answering post.');
@@ -206,6 +244,7 @@ async function answerPost(formData) {
         .then((data) => {
             if (data.success === true) {
                 console.log("The post is answered successfully.");
+                window.location.reload();
             } else {
                 console.log('The post is NOT answered successfully.');
             }
@@ -215,20 +254,20 @@ async function answerPost(formData) {
             console.log(error);
             console.error(message);
         });
-};
+}
 
 
 async function getIfUserAccepted(formData) {
     let answer;
 
     return fetch(`../../backend/endpoints/getIfUserAccepted.php?postId=${formData.postId}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json"
-            }
-            // body: JSON.stringify(formData),
-        })
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json"
+        }
+        // body: JSON.stringify(formData),
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error getting if user accepted.");
@@ -250,7 +289,7 @@ async function getIfUserAccepted(formData) {
             console.log(error);
             console.error(message);
         });
-};
+}
 
 function showAcceptButton(postId) {
     var buttonAccept = document.createElement("button");
@@ -281,13 +320,13 @@ function showDeclineButton(postId, article) {
 function appendPosts(posts) {
     var postSection = document.getElementById('list-of-invitations');
 
-    Object.values(posts).forEach(function(data) {
+    Object.values(posts).forEach(function (data) {
         const { privacy, speciality, groupUni, faculty, graduationYear, userId, postId, ...res } = data;
         var article = document.createElement("article");
         article.setAttribute("id", data.postId);
 
         var counter = 1;
-        Object.values(res).forEach(function(property) {
+        Object.values(res).forEach(function (property) {
             var paragraph = document.createElement("p");
             paragraph.innerHTML = property;
             article.appendChild(paragraph);
@@ -303,7 +342,7 @@ function appendPosts(posts) {
 
         const answer = getIfUserAccepted(formData);
 
-        Promise.resolve(answer).then(function(value) {
+        Promise.resolve(answer).then(function (value) {
             console.log("the value is: " + value.isAccepted);
 
             if (value.isAccepted == 0) {
@@ -321,13 +360,13 @@ function appendPosts(posts) {
 function appendMyPosts(posts) {
     var postSection = document.getElementById('list-of-my-invitations');
 
-    Object.values(posts).forEach(function(data) {
+    Object.values(posts).forEach(function (data) {
         const { id, speciality, groupUni, faculty, graduationYear, firstName, lastName, userId, postId, ...res } = data;
         var article = document.createElement('article');
         article.setAttribute("id", data.postId);
 
         var counter = 1;
-        Object.values(res).forEach(function(property) {
+        Object.values(res).forEach(function (property) {
             var paragraph = document.createElement('p');
             paragraph.innerHTML = property;
             console.log(property);
@@ -350,11 +389,11 @@ function appendMyPosts(posts) {
 
 async function getAllNearbyUsers() {
     fetch("../../backend/endpoints/nearbyUsers.php", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-        })
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error loading nearby users.");
@@ -375,7 +414,7 @@ function appendNearbyUsers(users) {
     var userSection = document.getElementById('nearby-alumnis');
 
     var counter = 1;
-    Object.values(users).forEach(function(data) {
+    Object.values(users).forEach(function (data) {
         var article = document.createElement('article');
         var markerIndex = document.createElement('p');
         markerIndex.setAttribute('class', 'marker-index');
@@ -383,7 +422,7 @@ function appendNearbyUsers(users) {
         article.appendChild(markerIndex);
 
         const { email, longitude, latitude, ...res } = data; // omits specific properties from an object in JavaScript
-        Object.values(res).forEach(function(property) {
+        Object.values(res).forEach(function (property) {
             var paragraph = document.createElement('p');
             paragraph.innerHTML = property;
             article.appendChild(paragraph);
@@ -409,12 +448,12 @@ let map;
 
 function updateCoordinates(position) {
     fetch('../../backend/endpoints/updateUserCoordinates.php', {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(position),
-        })
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(position),
+    })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error updating coordinates.');
@@ -477,5 +516,31 @@ function redirect(path) {
     window.location = path;
 }
 
+function getUserRole() {
+    fetch('../../backend/endpoints/getUserRole.php', {
+        method: 'GET'
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Error getting user role.');
+            }
+            return response.json();
+        })
+        .then(response => {
+            if (response.value != "admin") {
+                var statistics = document.getElementById('statistics');
+                statistics.parentNode.removeChild(statistics);
+                var users = document.getElementById('users');
+                users.parentNode.removeChild(users);
+            }
+        })
+        .catch(error => {
+            const message = 'Error getting user role.';
+            console.error(message);
+        });
+}
+
+
 getPosts();
 getMyPosts();
+getUserRole();

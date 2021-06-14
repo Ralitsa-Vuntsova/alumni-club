@@ -7,7 +7,7 @@ USE alumniClub;
 CREATE TABLE users (
   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
   username        VARCHAR(20) NOT NULL UNIQUE,
-  password        VARCHAR(25) NOT NULL,
+  password        VARCHAR(255) NOT NULL,
   firstName       VARCHAR(20), -- NOT NULL,
   lastName        VARCHAR(20), -- NOT NULL,
   email           VARCHAR(30) NOT NULL UNIQUE,
@@ -58,13 +58,6 @@ CREATE TABLE comments (
   content         VARCHAR(255) NOT NULL,
   createTime      DATETIME COMMENT 'create time'
 ) default charset utf8 comment '';
-
--- CREATE TABLE tokens (
---   id              INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'primary key',
---   token           VARCHAR(255),
---   userId          INT NOT NULL,
---   expires         DATETIME
--- ) default charset utf8 comment '';
 
 ALTER TABLE
   user_post

@@ -16,6 +16,7 @@
 
         public function updateUser($user)
         {
+            $this->validate($user->password, $user->email, $user->firstName, $user->lastName);
             $query = $this->userRepository->updateUserQuery([
                 "password" => $user->password,
                 "firstName" => $user->firstName,
@@ -24,25 +25,69 @@
             ]);
         }
 
+        private function required($field1, $field2, $field3, $field4): bool {
+			return !empty($field1) && !empty($field2) && !empty($field3) && !empty($field4);
+		}
+		
+		private function validName($field): bool{
+			return strlen($field) >= 2 && strlen($field) <= 45 && 
+            (preg_match('/^[\p{Cyrillic}]+[- \']?[\p{Cyrillic}]+$/u', $field) || preg_match('/^[a-zA-Z]+[- \']?[a-zA-Z]+$/', $field));	
+		}
+		
+		private function validEmail($field): bool {
+			return preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $field);
+		}
+
+		private function validPassword($field): bool {
+			return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{6,30}$/', $field);
+		}
+		
+		private function validate($password, $email, $firstName, $lastName): void {
+			
+			if (!$this->required($password, $email, $firstName, $lastName)) {
+				throw new Exception("Please enter all fields.");
+			}
+			
+			if (!$this->validName($firstName)) {
+				throw new Exception("Please enter valid first name.");
+			}
+			
+			if (!$this->validName($lastName)) {
+				throw new Exception("Please enter valid last name.");
+			}
+			
+			if (!$this->validEmail($email)) {
+				throw new Exception("Please enter valid email.");
+			}
+			
+			if (!$this->validPassword($password)) {
+				throw new Exception("Please enter valid password.");
+			}
+		}
+
         public function getUser()
         {
             $result = $this->userRepository->selectUserByIdQuery($_SESSION['userId']);
             return $result["data"]->fetch(PDO::FETCH_ASSOC);
         }
 
+
         public function checkLogin($username, $password) {
             $result = $this->userRepository->selectUserByUsernameQuery($username);
-            
-            if (!$result["success"]) {
-                throw new Exception("Wrong username.");
-            } else if ($password != $result["success"]) {  // check with ISSET  
-                throw new Exception("Wrong password.");
+            $resultData = $result["data"]->fetch(PDO::FETCH_ASSOC);
+            if (!$result["success"] || empty($resultData)) {
+                throw new Exception("Грешно потребителско име.");
+            } else if (!password_verify($password, $resultData["password"])) { 
+                throw new Exception("Грешна парола.");
             }
             session_start();
-            return $result["data"]->fetch(PDO::FETCH_ASSOC)["id"];
+            return $resultData["id"];
         }
 
-        public function updateCoordinates($longitude, $latitude){
+        public function updateCoordinates($longitude, $latitude) {
+            if(empty($longitude) || empty($latitude)) {
+                throw new Exception("Empty latitude or longitude.");
+            }
             $this->userRepository->updateCoordinatesQuery([
                 "longitude" => $longitude,
                 "latitude" => $latitude

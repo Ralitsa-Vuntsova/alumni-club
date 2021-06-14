@@ -143,3 +143,11 @@ input{
         margin-right: 0px;
     }
 }
+
+.error > small {
+    color: red;
+}
+
+.success > small {
+    color: green;
+}
