@@ -59,3 +59,44 @@ nav{
     border-bottom: 1px solid rgb(60,179,113);
     width: 35%;
 }
+
+
+@media screen and (max-width: 900px) {
+    #home, #logout, #profile, #statistics{
+        border: none;
+        width: 105px;
+        margin-left: -5px;
+    }
+
+    .list-of-users article{
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 435px) {
+    nav{
+        margin-right: 0px;
+    }
+}
+
+@media screen and (max-width: 335px) {
+    #home, #logout, #profile, #statistics{
+        font-size: 14px;
+    }
+
+    nav{
+        margin-right: 0px;
+    }
+
+    #home, #logout, #profile, #statistics{
+        padding: 0px;
+    }
+
+    h1{
+        font-size: 20px;
+    }
+
+    .list-of-users article{
+        font-size: 12px;
+    }
+}
