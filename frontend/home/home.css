@@ -237,25 +237,21 @@ input{
     color: rgb(43, 105, 71) !important;
 }
 
-
 @media screen and (max-width: 900px) {
     #profile, #logout, #users, #statistics{
         border: none;
         width: 105px;
         margin-left: -5px;
     }
-
-}
-
-@media screen and (max-width: 600px) {
-    .column {
-      width: 100%;
-    }
 }
 
 @media screen and (max-width: 435px) {
     nav{
         margin-right: 0px;
+    }
+
+    #delete-button, .accept-button, .decline-button{
+        width: 80px;
     }
 }
 
@@ -267,5 +263,11 @@ input{
 
     nav{
         margin-right: 0px;
+    }
+
+    .list-of-invitations p{
+        margin-left: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 }
