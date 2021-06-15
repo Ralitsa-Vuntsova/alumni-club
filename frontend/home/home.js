@@ -48,8 +48,8 @@ usersBtn.addEventListener('click', () => {
 
 function logout() {
     fetch('../../backend/endpoints/logout.php', {
-        method: 'GET'
-    })
+            method: 'GET'
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error logout user.');
@@ -105,11 +105,11 @@ submitPostBtn.addEventListener('click', (event) => {
 
 async function getPosts() {
     fetch("../../backend/endpoints/getAllPostsEndpoint.php", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-    })
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error loading posts.");
@@ -127,11 +127,11 @@ async function getPosts() {
 
 async function getMyPosts() {
     fetch("../../backend/endpoints/myPosts.php", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-    })
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error loading posts.");
@@ -149,12 +149,12 @@ async function getMyPosts() {
 
 async function createPost(formData) {
     fetch('../../backend/endpoints/createPostEndpoint.php', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(formData),
-    })
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(formData),
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error creating post.');
@@ -199,12 +199,12 @@ async function deletePost(postId) {
     };
 
     fetch("../../backend/endpoints/deletePost.php", {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(formData)
-    })
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(formData)
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error deleting post.");
@@ -229,12 +229,12 @@ async function deletePost(postId) {
 
 async function answerPost(formData) {
     fetch('../../backend/endpoints/answerPost.php', {
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(formData),
-    })
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(formData),
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error answering post.');
@@ -261,13 +261,13 @@ async function getIfUserAccepted(formData) {
     let answer;
 
     return fetch(`../../backend/endpoints/getIfUserAccepted.php?postId=${formData.postId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            "Accept": "application/json"
-        }
-        // body: JSON.stringify(formData),
-    })
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json"
+            }
+            // body: JSON.stringify(formData),
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error getting if user accepted.");
@@ -320,13 +320,13 @@ function showDeclineButton(postId, article) {
 function appendPosts(posts) {
     var postSection = document.getElementById('list-of-invitations');
 
-    Object.values(posts).forEach(function (data) {
+    Object.values(posts).forEach(function(data) {
         const { privacy, speciality, groupUni, faculty, graduationYear, userId, postId, ...res } = data;
         var article = document.createElement("article");
         article.setAttribute("id", data.postId);
 
         var counter = 1;
-        Object.values(res).forEach(function (property) {
+        Object.values(res).forEach(function(property) {
             var paragraph = document.createElement("p");
             paragraph.innerHTML = property;
             article.appendChild(paragraph);
@@ -342,8 +342,7 @@ function appendPosts(posts) {
 
         const answer = getIfUserAccepted(formData);
 
-        Promise.resolve(answer).then(function (value) {
-            console.log("the value is: " + value.isAccepted);
+        Promise.resolve(answer).then(function(value) {
 
             if (value.isAccepted == 0) {
                 showAcceptButton(data.postId);
@@ -360,13 +359,13 @@ function appendPosts(posts) {
 function appendMyPosts(posts) {
     var postSection = document.getElementById('list-of-my-invitations');
 
-    Object.values(posts).forEach(function (data) {
+    Object.values(posts).forEach(function(data) {
         const { id, speciality, groupUni, faculty, graduationYear, firstName, lastName, userId, postId, ...res } = data;
         var article = document.createElement('article');
         article.setAttribute("id", data.postId);
 
         var counter = 1;
-        Object.values(res).forEach(function (property) {
+        Object.values(res).forEach(function(property) {
             var paragraph = document.createElement('p');
             paragraph.innerHTML = property;
             console.log(property);
@@ -389,11 +388,11 @@ function appendMyPosts(posts) {
 
 async function getAllNearbyUsers() {
     fetch("../../backend/endpoints/nearbyUsers.php", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-    })
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Error loading nearby users.");
@@ -401,7 +400,6 @@ async function getAllNearbyUsers() {
             return response.json();
         })
         .then((data) => {
-            // console.log(data.value);
             appendNearbyUsers(data.value);
             showMarkers(data.value);
         })
@@ -414,7 +412,7 @@ function appendNearbyUsers(users) {
     var userSection = document.getElementById('nearby-alumnis');
 
     var counter = 1;
-    Object.values(users).forEach(function (data) {
+    Object.values(users).forEach(function(data) {
         var article = document.createElement('article');
         var markerIndex = document.createElement('p');
         markerIndex.setAttribute('class', 'marker-index');
@@ -422,7 +420,7 @@ function appendNearbyUsers(users) {
         article.appendChild(markerIndex);
 
         const { email, longitude, latitude, ...res } = data; // omits specific properties from an object in JavaScript
-        Object.values(res).forEach(function (property) {
+        Object.values(res).forEach(function(property) {
             var paragraph = document.createElement('p');
             paragraph.innerHTML = property;
             article.appendChild(paragraph);
@@ -448,12 +446,12 @@ let map;
 
 function updateCoordinates(position) {
     fetch('../../backend/endpoints/updateUserCoordinates.php', {
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(position),
-    })
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(position),
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error updating coordinates.');
@@ -518,8 +516,8 @@ function redirect(path) {
 
 function getUserRole() {
     fetch('../../backend/endpoints/getUserRole.php', {
-        method: 'GET'
-    })
+            method: 'GET'
+        })
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Error getting user role.');
