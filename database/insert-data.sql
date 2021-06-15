@@ -36,9 +36,9 @@ VALUES (NULL, 'pavkata', '$2y$10$YmtYW5v/0bFNxfq/xWPEn.2szN1DVYZHabjPCFPCVHRZv36
 INSERT INTO `users` 
 (`id`, `username`, `password`, `firstName`, `lastName`, `email`, `role`, 
 `speciality`, `graduationYear`, `groupUni`, `faculty`, `longitude`, `latitude`)
-VALUES (NULL, 'admin', '$2y$10$cwP6SruXyOFMYqWltTXQbO5x3i2Vtqby9TXG9UcuMRZ4whgl9stKW', 'Georgi', 'Georgiev', 'georgiew@gmail.com', 
+VALUES (NULL, 'admin', '$2y$10$QKAZShnonS0SdBLPu/6ty.qrOHAaIoTd0aD0i0x9til2UcgzhJsvW', 'Georgi', 'Georgiev', 'georgiew@gmail.com', 
 'admin', 'software engineering', '2024', '2', 'FMI', NULL, NULL);
--- password: admin
+-- password: Admin_359
 
 INSERT INTO `posts` 
 (`id`, `privacy`, `userId`, `occasion`, `location`, `content`, `occasionDate`)
