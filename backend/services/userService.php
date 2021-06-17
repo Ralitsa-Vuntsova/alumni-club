@@ -3,10 +3,14 @@
 
     class UserService {
         private $userRepository;
+        private $radius;
 
         public function __construct()
         {
             $this->userRepository = new UserRepository();
+            $config = parse_ini_file('../../config/config.ini', true);
+
+            $this->radius = $config['radius']['km'];
         }
 
         public function getAllUsers()
@@ -108,7 +112,6 @@
           }
 
           public function getAllNearbyUsers(){
-            $radius = 5;
             $allUsers = $this->userRepository->selectNearbyUsersInfoQuery();
             $currentUser = $this->getUser();
             $result = array();
@@ -118,7 +121,7 @@
                     continue;
                 }
                 $distance = $this->getDistance($currentUser["latitude"], $currentUser["longitude"], $user->latitude, $user->longitude);
-                if($distance < $radius){
+                if($distance < $this->radius){
                     array_push($result, $user);
                 }
             }
